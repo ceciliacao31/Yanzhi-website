@@ -1,12 +1,15 @@
 :root {
     --bg-color: #ffffff;
-    --text-color: #333333;
-    --heading-color: #111111;
-    --accent-color: #0056b3;
+    --text-color: #000000;
+    /* Strictly black */
+    --heading-color: #000000;
+    --accent-color: #000000;
+    /* Black for accents/links */
+    --link-decoration: underline;
+    /* Underline links by default or on hover as requested */
     --sidebar-bg: #f8f9fa;
     --border-color: #eaeaea;
     --spacing-unit: 2rem;
-    /* Increased spacing */
     --font-main: 'Inter', system-ui, -apple-system, sans-serif;
 }
 
@@ -21,18 +24,21 @@ body {
     background-color: var(--bg-color);
     color: var(--text-color);
     line-height: 1.8;
-    /* Increased line height */
     display: flex;
     flex-direction: column;
 }
 
 a {
-    color: var(--accent-color);
+    color: var(--text-color);
     text-decoration: none;
-    transition: opacity 0.2s;
+    /* Clean by default */
+    border-bottom: 1px solid transparent;
+    /* Prepare for underline effect if needed, or just standard text-decoration */
+    transition: all 0.2s ease;
 }
 
 a:hover {
+    text-decoration: underline;
     opacity: 0.8;
 }
 
@@ -47,7 +53,7 @@ a:hover {
 header {
     background-color: var(--bg-color);
     border-bottom: 1px solid var(--border-color);
-    padding: 1rem 2rem;
+    padding: 1.5rem 2rem;
     position: sticky;
     top: 0;
     z-index: 1000;
@@ -70,19 +76,16 @@ header {
 
 .brand:hover {
     opacity: 1;
-    /* Brand should likely stick to solid color */
-    color: var(--accent-color);
-}
-
-.nav-toggle {
-    display: none;
-    /* Hidden by default on desktop */
+    text-decoration: none;
 }
 
 .nav-links {
     list-style: none;
     display: flex;
-    gap: 2rem;
+    gap: 2.5rem;
+    padding-left: 0;
+    /* Reset indentation for nav */
+    margin-bottom: 0;
 }
 
 .nav-links li {
@@ -90,7 +93,7 @@ header {
 }
 
 .nav-links a {
-    color: #555;
+    color: #444;
     font-weight: 500;
     text-decoration: none;
     font-size: 1rem;
@@ -98,7 +101,8 @@ header {
 
 .nav-links a:hover,
 .nav-links a.active {
-    color: var(--accent-color);
+    color: #000;
+    text-decoration: underline;
 }
 
 /* Mobile Nav */
@@ -113,10 +117,7 @@ header {
         width: 100%;
         gap: 1rem;
         margin-top: 1rem;
-        display: none;
-        /* Hidden initially on mobile if we had toggler, but keeping simple for now lets just stack */
         display: flex;
-        /* Force show for simplicity or implement toggler later */
     }
 
     .brand {
@@ -128,55 +129,104 @@ header {
 .main-content {
     flex: 1;
     padding: 3rem 2rem;
-    max-width: 1000px;
-    /* Centered width */
+    max-width: 1200px;
+    /* Match header max-width for alignment */
     margin: 0 auto;
     width: 100%;
 }
 
 /* Specific Section Styles */
-.hero {
+/* Page Layout */
+.layout-wrapper {
     display: flex;
-    flex-direction: column-reverse;
+    flex-direction: column;
     gap: 2rem;
+}
+
+.profile-sidebar {
+    display: flex;
+    flex-direction: column;
     align-items: center;
-    margin-bottom: 4rem;
+    /* Center on mobile */
+    text-align: center;
+}
+
+.content-column {
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+}
+
+.profile-info {
+    margin-top: 1.5rem;
+}
+
+.profile-info h1 {
+    font-size: 1.8rem;
+    margin-bottom: 0.5rem;
+    color: #000;
+}
+
+.profile-info .profile-title {
+    font-weight: 500;
+    margin-bottom: 1rem;
+    color: #555;
+    font-size: 1rem;
+}
+
+.contact-mini p {
+    margin-bottom: 0.25rem;
+    font-size: 0.9rem;
+    color: #444;
 }
 
 @media (min-width: 768px) {
-    .hero {
+    .layout-wrapper {
         flex-direction: row;
         align-items: flex-start;
-        justify-content: space-between;
+        gap: 4rem;
     }
 
-    .hero-text {
-        flex: 1;
-        padding-right: 2rem;
-    }
-
-    .hero-image-container {
+    .profile-sidebar {
         flex: 0 0 250px;
+        /* Fixed width sidebar */
+        align-items: flex-start;
+        /* Left align on desktop */
+        text-align: left;
+        position: sticky;
+        top: 2rem;
+    }
+
+    .content-column {
+        flex: 1;
+        padding-top: 0;
+    }
+
+    .profile-img {
+        width: 100%;
+        height: auto;
+        max-width: 250px;
     }
 }
 
 .profile-img {
-    width: 250px;
-    height: 250px;
-    border-radius: 50%;
-    /* Or rounded square depending on pref, square looks more modern sometimes but circle is classic */
+    width: 200px;
+    height: 200px;
+    border-radius: 5px;
+    /* Slightly less rounded */
     object-fit: cover;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .news-date {
     font-weight: 600;
-    min-width: 120px;
-    color: var(--accent-color);
+    min-width: 140px;
+    color: #000;
     display: inline-block;
+    vertical-align: top;
 }
 
-/* Footer for simple clean bottom */
+/* Footer */
 footer {
     border-top: 1px solid var(--border-color);
     padding: 2rem;
@@ -184,4 +234,56 @@ footer {
     color: #666;
     font-size: 0.9rem;
     margin-top: auto;
+}
+
+/* Typography & Lists */
+h1,
+h2,
+h3 {
+    color: var(--heading-color);
+    margin-bottom: 1.25rem;
+}
+
+h2 {
+    font-size: 1.8rem;
+    border-bottom: 2px solid var(--border-color);
+    padding-bottom: 0.5rem;
+    margin-bottom: 2rem;
+    font-weight: 600;
+}
+
+h3 {
+    font-size: 1.3rem;
+    margin-top: 2rem;
+    font-weight: 600;
+}
+
+p {
+    margin-bottom: 1.25rem;
+}
+
+ul {
+    padding-left: 1.5rem;
+    /* Consistent padding for normal lists */
+    margin-bottom: 1.5rem;
+}
+
+li {
+    margin-bottom: 0.5rem;
+}
+
+/* Button styles if any */
+.btn-download {
+    display: inline-block;
+    background-color: #000;
+    color: #fff !important;
+    padding: 0.8rem 1.5rem;
+    border-radius: 4px;
+    font-weight: 500;
+    text-decoration: none !important;
+    transition: opacity 0.2s;
+}
+
+.btn-download:hover {
+    opacity: 0.8;
 }

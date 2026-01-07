@@ -32,72 +32,84 @@
         <!-- Main Content -->
         <main class="main-content">
 
-            <!-- Hero / About Section -->
-            <section id="about" class="hero">
-                <div class="hero-text">
-                    <h1>Yanzhi Wang</h1>
-                    <p class="profile-title">Associate Professor, Northeastern University</p>
-                    <div id="bio-content">
-                        <p>Yanzhi Wang is an Associate Professor in the College of Engineering at Northeastern
-                            University, holding a courtesy appointment in the Khoury College of Computer Sciences. He
-                            previously served as an Assistant Professor at Syracuse University before joining
-                            Northeastern in Fall 2018.</p>
-                        <p>He earned his Ph.D. in Computer Engineering from the University of Southern California in
-                            2014, where he received the Ming Hsieh Scholar Award. He obtained a B.S. in Electronic
-                            Engineering from Tsinghua University in 2009 with distinction.</p>
+            <div class="layout-wrapper">
+                <!-- Left Sidebar -->
+                <aside class="profile-sidebar">
+                    <div class="hero-image-container">
+                        <img src="./assets/Yanzhi-headshot.jpeg" alt="Professor Yanzhi Wang" class="profile-img">
                     </div>
-                    <div class="contact-mini" style="margin-top: 1rem; color: #666;">
-                        <p>428 ISEC, 360 Huntington Ave, Boston, MA 02115</p>
-                        <p>yanzhiwang at northeastern dot edu</p>
+                    <div class="profile-info">
+                        <div class="contact-mini">
+                            <p>yanzhiwang at northeastern dot edu</p>
+                            <p>360 Huntington Ave, Boston, MA 02115</p>
+                            <p>Dept. of ECE</p>
+                            <p>Northeastern University</p>
+                        </div>
                     </div>
-                </div>
-                <div class="hero-image-container">
-                    <img src="./assets/Yanzhi-headshot.jpeg" alt="Professor Yanzhi Wang" class="profile-img">
-                </div>
-            </section>
+                </aside>
 
-            <section id="news">
-                <h2>News</h2>
-                <ul class="news-list" id="news-content">
-                    <li class="news-item">
-                        <span class="news-date">Mar 2023</span>
-                        <span class="news-text">Invited talk "Towards ultimate efficiency in deep learning acceleration"
-                            at Brandeis University & Army Research Office.</span>
-                    </li>
-                    <li class="news-item">
-                        <span class="news-date">Feb 2023</span>
-                        <span class="news-text">Invited talk at University of Connecticut & Rensselaer Polytechnic
-                            Institute.</span>
-                    </li>
-                    <li class="news-item">
-                        <span class="news-date">Oct 2022</span>
-                        <span class="news-text">Presentation on "Compression-compilation co-design for real-time DNN
-                            acceleration" at HexaFlake Inc.</span>
-                    </li>
-                    <li class="news-item">
-                        <span class="news-date">Jul 2022</span>
-                        <span class="news-text">Talk at ICML Continual Learning Workshop.</span>
-                    </li>
-                </ul>
-            </section>
+                <!-- Right Content Column -->
+                <div class="content-column">
+                    <section id="about">
+                        <div id="bio-content">
+                            <p>Yanzhi Wang is a Professor in the College of Engineering at Northeastern
+                                University, holding a courtesy appointment in the Khoury College of Computer Sciences.
+                                He
+                                previously served as an Assistant Professor at Syracuse University before joining
+                                Northeastern in Fall 2018.</p>
+                            <p>He earned his Ph.D. in Computer Engineering from the University of Southern California in
+                                2014, where he received the Ming Hsieh Scholar Award. He obtained a B.S. in Electronic
+                                Engineering from Tsinghua University in 2009 with distinction.</p>
+                        </div>
+                    </section>
 
-            <section id="research">
-                <h2>Research Interests</h2>
-                <div id="research-content">
-                    <p>Real-time and energy-efficient deep learning and artificial intelligence systems.</p>
-                    <ul id="interests-list" style="padding-left: 1.5rem;">
-                        <li><strong>Deep Learning Acceleration:</strong> Model compression (pruning, quantization) and
-                            compilation for real-time execution on mobile/edge devices.</li>
-                        <li><strong>Efficient LLMs:</strong> Large Language Models and Generative AI systems efficiency.
-                        </li>
-                        <li><strong>Hardware-Software Co-design:</strong> Automated co-design for FPGAs and ASICs.</li>
-                        <li><strong>Neuromorphic Computing:</strong> Non-von Neumann computing paradigms and emerging
-                            devices.</li>
-                        <li><strong>Secure AI:</strong> Adversarial robustness and privacy in deep learning systems.
-                        </li>
-                    </ul>
+                    <section id="research">
+                        <h2>Research Interests</h2>
+                        <div id="research-content">
+                            <ul id="interests-list">
+                                <li>Real-time and energy-efficient deep learning and artificial intelligence systems
+                                </li>
+                                <li>Large language models and large-scale generative AI systems</li>
+                                <li>Model compression and mobile acceleration of deep neural networks (DNNs)</li>
+                                <li>Deep learning acceleration for autodriving</li>
+                                <li>Neuromorphic computing and non-von Neumann computing paradigms</li>
+                                <li>Cyber-security in deep learning systems</li>
+                            </ul>
+                        </div>
+                    </section>
+
+                    <section id="news">
+                        <h2>News</h2>
+                        <ul class="news-list" id="news-content">
+                            <li class="news-item">
+                                <span class="news-date">Mar 2023</span>
+                                <span class="news-text">Invited talks "Towards ultimate efficiency in deep learning
+                                    acceleration" at Brandeis University & Army Research Office.</span>
+                            </li>
+                            <li class="news-item">
+                                <span class="news-date">Feb 2023</span>
+                                <span class="news-text">Invited talks at University of Connecticut & Rensselaer
+                                    Polytechnic
+                                    Institute.</span>
+                            </li>
+                            <li class="news-item">
+                                <span class="news-date">Oct 2022</span>
+                                <span class="news-text">Invited talk "Compression-compilation co-design for real-time
+                                    DNN
+                                    acceleration" at HexaFlake Inc.</span>
+                            </li>
+                            <li class="news-item">
+                                <span class="news-date">Sep 2022</span>
+                                <span class="news-text">Presentations at Worcester Polytechnic Institute, SimpliSafe
+                                    Inc., and
+                                    NeuroXess Inc.</span>
+                            </li>
+                        </ul>
+                    </section>
+
+
                 </div>
-            </section>
+            </div>
         </main>
 
         <footer>
