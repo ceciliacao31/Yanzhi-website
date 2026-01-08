@@ -14,19 +14,8 @@
 
 <body>
     <!-- Top Navigation -->
-    <header>
-        <div class="header-content">
-            <a href="./index.html" class="brand">Yanzhi Wang</a>
-            <nav>
-                <ul class="nav-links">
-                    <li><a href="./index.html">Home</a></li>
-                    <li><a href="./publications.html">Publications</a></li>
-                    <li><a href="./teaching.html">Teaching</a></li>
-                    <li><a href="./cv.doc" target="_blank">CV</a></li>
-                </ul>
-            </nav>
-        </div>
-    </header>
+    <!-- Top Navigation -->
+    <shared-header></shared-header>
 
     <div class="container">
         <!-- Main Content -->
@@ -63,7 +52,8 @@
                         </div>
                     </section>
 
-                    <section id="research">
+
+                    <section id="search-interests">
                         <h2>Research Interests</h2>
                         <div id="research-content">
                             <ul id="interests-list">
@@ -80,42 +70,47 @@
 
                     <section id="news">
                         <h2>News</h2>
-                        <ul class="news-list" id="news-content">
+                        <ul class="news-list">
                             <li class="news-item">
                                 <span class="news-date">Sep 2025</span>
-                                <span class="news-text"><a
+                                <div class="news-text"><a
                                         href="https://coe.northeastern.edu/news/2025-stanford-university-annual-assessment-of-author-citations/"
                                         target="_blank"
                                         style="color: inherit; text-decoration: none; border-bottom: 1px solid black;">2025
-                                        Stanford University Annual Assessment of Author Citations</a></span>
+                                        Stanford University Annual Assessment of Author Citations</a></div>
                             </li>
                             <li class="news-item">
                                 <span class="news-date">Jul 2025</span>
-                                <span class="news-text"><a
+                                <div class="news-text"><a
                                         href="https://coe.northeastern.edu/news/strengthening-ai-for-critical-edge-applications/"
                                         target="_blank"
                                         style="color: inherit; text-decoration: none; border-bottom: 1px solid black;">Awarded
-                                        $1,100,000 NSF grant for “Robust Machine Learning at the Edge”</a></span>
+                                        $1,100,000 NSF grant for “Robust Machine Learning at the Edge”</a></div>
                             </li>
                             <li class="news-item">
                                 <span class="news-date">Jan 2025</span>
-                                <span class="news-text"><a
+                                <div class="news-text"><a
                                         href="https://coe.northeastern.edu/news/2024-stanford-university-annual-assessment-of-author-citations/"
                                         target="_blank"
                                         style="color: inherit; text-decoration: none; border-bottom: 1px solid black;">2024
-                                        Stanford University Annual Assessment of Author Citations</a></span>
+                                        Stanford University Annual Assessment of Author Citations</a></div>
+                            </li>
+                            <li class="news-item">
+                                <span class="news-date">Feb 2024</span>
+                                <div class="news-text"><a
+                                        href="https://coe.northeastern.edu/news/creating-inclusive-cities-through-technology/"
+                                        target="_blank"
+                                        style="color: inherit; text-decoration: none; border-bottom: 1px solid black;">Received
+                                        $1.6M NSF grant for “Strengthening Elderly Mobility in Urban
+                                        Landscapes”</a></div>
                             </li>
                         </ul>
                     </section>
-
-
                 </div>
             </div>
         </main>
 
-        <footer>
-            <p>&copy; 2025 Yanzhi Wang</p>
-        </footer>
+        <shared-footer></shared-footer>
     </div>
     <script type="module" src="./src/main.js"></script>
 </body>

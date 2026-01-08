@@ -9,7 +9,10 @@ export default defineConfig({
             input: {
                 main: 'index.html',
                 publications: 'publications.html',
-                teaching: 'teaching.html'
+                teaching: 'teaching.html',
+                students: 'students.html',
+                news: 'news.html',
+                opensource: 'opensource.html'
             }
         },
         outDir: 'docs', // Output to docs/ for easier GitHub Pages deployment

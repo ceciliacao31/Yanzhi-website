@@ -218,12 +218,23 @@ header {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
+.news-item {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 1.5rem;
+}
+
 .news-date {
     font-weight: 600;
-    min-width: 140px;
+    flex: 0 0 140px;
+    /* Fixed width, no shrink/grow */
     color: #000;
-    display: inline-block;
-    vertical-align: top;
+    margin-right: 1rem;
+}
+
+.news-text {
+    flex: 1;
+    display: block;
 }
 
 /* Footer */
@@ -284,6 +295,84 @@ li {
     transition: opacity 0.2s;
 }
 
+
 .btn-download:hover {
     opacity: 0.8;
+}
+
+/* News Description Style */
+.news-description {
+    font-size: 0.9rem;
+    color: #666;
+    margin-top: 0.5rem;
+    margin-bottom: 1rem;
+    line-height: 1.5;
+}
+
+/* Open Source Page - Project Cards */
+.project-section {
+    margin-bottom: 3rem;
+}
+
+.project-section h2 {
+    border-bottom: 2px solid #eee;
+    padding-bottom: 0.5rem;
+    margin-bottom: 1.5rem;
+    font-weight: 600;
+}
+
+.cards-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+}
+
+.project-card {
+    background: #fff;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    padding: 1.5rem;
+    transition: transform 0.2s, box-shadow 0.2s;
+    display: flex;
+    flex-direction: column;
+}
+
+.project-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    border-color: #ddd;
+}
+
+.project-card h3 {
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+    font-size: 1.2rem;
+    color: #111;
+}
+
+.project-card p {
+    font-size: 0.95rem;
+    color: #555;
+    margin-bottom: 1.5rem;
+    flex-grow: 1;
+}
+
+.card-links {
+    display: flex;
+    gap: 1rem;
+    margin-top: auto;
+}
+
+.card-link {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #0056b3;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+}
+
+.card-link:hover {
+    text-decoration: underline;
 }
