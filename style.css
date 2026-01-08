@@ -218,6 +218,14 @@ header {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
+.university-logo {
+    width: 100%;
+    max-width: 200px;
+    height: auto;
+    margin-top: 1rem;
+    display: block;
+}
+
 .news-item {
     display: flex;
     align-items: flex-start;
