@@ -374,8 +374,8 @@ li {
 .card-link {
     font-size: 0.9rem;
     font-weight: 500;
-    color: #0056b3;
-    text-decoration: none;
+    color: #000;
+    text-decoration: underline;
     display: flex;
     align-items: center;
     gap: 0.3rem;
