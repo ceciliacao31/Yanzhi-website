@@ -10,7 +10,7 @@
                     <li><a href="./teaching.html">Teaching</a></li>
                     <li><a href="./students.html">Students</a></li>
                     <li><a href="./opensource.html">Open Source</a></li>
-                    <li><a href="./cv.doc" target="_blank">CV</a></li>
+                    <li><a href="./CV.pdf" target="_blank">CV</a></li>
                 </ul>
             </nav>
         </div>
