@@ -2,7 +2,7 @@ import { defineConfig } from 'vite'
 
 export default defineConfig({
     // IMPORTANT: This must match your repository name exactly
-    base: '/Yanzhi-website/',
+    base: '/',
     build: {
         rollupOptions: {
             // This ensures your extra HTML pages (teaching, publications) are included in the build
