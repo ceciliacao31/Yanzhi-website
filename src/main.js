@@ -49,7 +49,7 @@ class SharedFooter extends HTMLElement {
     connectedCallback() {
         this.innerHTML = `
         <footer>
-            <p>&copy; 2025 Yanzhi Wang</p>
+            <p>&copy; 2025 Yanzhi Wang &nbsp;|&nbsp; <a href="/conferences/" style="color: inherit; text-decoration: none; border-bottom: 1px solid currentColor;">Conference Tracker</a></p>
         </footer>
         `;
     }
