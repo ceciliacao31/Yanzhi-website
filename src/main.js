@@ -68,13 +68,24 @@ document.addEventListener('DOMContentLoaded', () => {
     link.textContent = 'Conference Tracker';
     link.style.cssText = `
         display: block;
-        margin-top: 0.6rem;
-        font-size: 0.8rem;
-        color: #4b5563;
+        margin-top: 1.2rem;
+        padding: 0.5rem 0.75rem;
+        font-size: 1rem;
+        font-weight: 600;
+        color: #cc0000;
         text-decoration: none;
-        text-align: center;
+        border-left: 3px solid #cc0000;
+        background: #fff5f5;
+        border-radius: 0 4px 4px 0;
+        transition: background 0.2s;
     `;
-    link.addEventListener('mouseenter', () => link.style.color = '#1d4ed8');
-    link.addEventListener('mouseleave', () => link.style.color = '#4b5563');
+    link.addEventListener('mouseenter', () => {
+        link.style.background = '#ffe4e4';
+        link.style.textDecoration = 'underline';
+    });
+    link.addEventListener('mouseleave', () => {
+        link.style.background = '#fff5f5';
+        link.style.textDecoration = 'none';
+    });
     logo.insertAdjacentElement('afterend', link);
 });
