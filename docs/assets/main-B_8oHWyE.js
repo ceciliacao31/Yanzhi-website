@@ -25,10 +25,10 @@
         padding: 0.5rem 0.75rem;
         font-size: 1rem;
         font-weight: 600;
-        color: #cc0000;
+        color: #444;
         text-decoration: none;
-        border-left: 3px solid #cc0000;
-        background: #fff5f5;
+        border-left: 3px solid #ccc;
+        background: #f5f5f5;
         border-radius: 0 4px 4px 0;
         transition: background 0.2s;
-    `,t.addEventListener("mouseenter",()=>{t.style.background="#ffe4e4",t.style.textDecoration="underline"}),t.addEventListener("mouseleave",()=>{t.style.background="#fff5f5",t.style.textDecoration="none"}),o.insertAdjacentElement("afterend",t)});
+    `,t.addEventListener("mouseenter",()=>{t.style.background="#e8e8e8",t.style.textDecoration="underline"}),t.addEventListener("mouseleave",()=>{t.style.background="#f5f5f5",t.style.textDecoration="none"}),o.insertAdjacentElement("afterend",t)});

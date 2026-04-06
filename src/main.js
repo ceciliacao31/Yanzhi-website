@@ -72,19 +72,19 @@ document.addEventListener('DOMContentLoaded', () => {
         padding: 0.5rem 0.75rem;
         font-size: 1rem;
         font-weight: 600;
-        color: #cc0000;
+        color: #444;
         text-decoration: none;
-        border-left: 3px solid #cc0000;
-        background: #fff5f5;
+        border-left: 3px solid #ccc;
+        background: #f5f5f5;
         border-radius: 0 4px 4px 0;
         transition: background 0.2s;
     `;
     link.addEventListener('mouseenter', () => {
-        link.style.background = '#ffe4e4';
+        link.style.background = '#e8e8e8';
         link.style.textDecoration = 'underline';
     });
     link.addEventListener('mouseleave', () => {
-        link.style.background = '#fff5f5';
+        link.style.background = '#f5f5f5';
         link.style.textDecoration = 'none';
     });
     logo.insertAdjacentElement('afterend', link);
