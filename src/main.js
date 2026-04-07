@@ -1,4 +1,19 @@
-// Define Shared Header Component
+const API = 'https://conference-tracker-production.up.railway.app';
+
+// ── Auth helpers ──────────────────────────────────────────────
+function getToken() { return localStorage.getItem('ct_token'); }
+function setToken(t) { localStorage.setItem('ct_token', t); }
+function clearToken() { localStorage.removeItem('ct_token'); }
+
+async function fetchMe(token) {
+    const res = await fetch(`${API}/api/auth/me`, {
+        headers: { Authorization: `Bearer ${token}` },
+    });
+    if (!res.ok) return null;
+    return res.json();
+}
+
+// ── Shared Header ─────────────────────────────────────────────
 class SharedHeader extends HTMLElement {
     connectedCallback() {
         this.innerHTML = `
@@ -14,27 +29,28 @@ class SharedHeader extends HTMLElement {
                     <li><a href="./students.html">Students</a></li>
                     <li><a href="./opensource.html">Open Source</a></li>
                     <li><a href="./CV.pdf" target="_blank">CV</a></li>
+                    <li><a href="#" id="users-nav-link">Users</a></li>
                 </ul>
             </nav>
         </div>
     </header>
         `;
         this.highlightActiveLink();
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('users-nav-link')?.addEventListener('click', e => {
+                e.preventDefault();
+                openAuthModal();
+            });
+        });
     }
 
     highlightActiveLink() {
         const currentPath = window.location.pathname;
         const navLinks = this.querySelectorAll('.nav-links a');
-
         navLinks.forEach(link => {
             const linkHref = link.getAttribute('href');
-
-            // Simple check based on filename
             const filename = currentPath.split('/').pop() || 'index.html';
-
-            // Clean up the href to match filename (remove ./ and query params)
             const cleanHref = linkHref.replace('./', '').split('?')[0];
-
             if (cleanHref === filename) {
                 link.classList.add('active');
             } else {
@@ -44,7 +60,7 @@ class SharedHeader extends HTMLElement {
     }
 }
 
-// Define Shared Footer Component
+// ── Shared Footer ─────────────────────────────────────────────
 class SharedFooter extends HTMLElement {
     connectedCallback() {
         this.innerHTML = `
@@ -55,39 +71,265 @@ class SharedFooter extends HTMLElement {
     }
 }
 
-// Register Components
 customElements.define('shared-header', SharedHeader);
 customElements.define('shared-footer', SharedFooter);
 
-// Inject Conference Tracker link below NEU logo in sidebar
-document.addEventListener('DOMContentLoaded', () => {
+// ── Auth Modal ────────────────────────────────────────────────
+function buildModal() {
+    if (document.getElementById('ct-auth-modal')) return;
+
+    const overlay = document.createElement('div');
+    overlay.id = 'ct-auth-modal';
+    overlay.style.cssText = `
+        display:none; position:fixed; inset:0; z-index:9999;
+        background:rgba(0,0,0,0.45); align-items:center; justify-content:center;
+    `;
+    overlay.innerHTML = `
+        <div id="ct-auth-box" style="
+            background:#fff; border-radius:8px; width:380px; max-width:90vw;
+            overflow:hidden; box-shadow:0 20px 40px rgba(0,0,0,0.2);
+        ">
+            <div id="ct-auth-tabs" style="display:flex; border-bottom:1px solid #e2e8f0;">
+                <button data-tab="login" style="
+                    flex:1; padding:0.9rem; border:none; background:none; cursor:pointer;
+                    font-size:0.95rem; font-weight:600; color:#3b82f6;
+                    border-bottom:2px solid #3b82f6;
+                " id="ct-tab-login">Sign In</button>
+                <button data-tab="register" style="
+                    flex:1; padding:0.9rem; border:none; background:none; cursor:pointer;
+                    font-size:0.95rem; font-weight:600; color:#64748b; border-bottom:2px solid transparent;
+                " id="ct-tab-register">Register</button>
+            </div>
+
+            <div id="ct-pending-msg" style="display:none; padding:1.5rem; text-align:center;">
+                <p style="color:#166534; font-weight:600; margin-bottom:0.5rem;">Registration received!</p>
+                <p id="ct-pending-text" style="color:#444; font-size:0.9rem;"></p>
+                <button id="ct-pending-close" style="
+                    margin-top:1rem; padding:0.5rem 1.2rem; background:#3b82f6;
+                    color:#fff; border:none; border-radius:6px; cursor:pointer; font-size:0.9rem;
+                ">Close</button>
+            </div>
+
+            <form id="ct-auth-form" style="padding:1.25rem 1.5rem 1.5rem;">
+                <div style="margin-bottom:1rem;">
+                    <label style="display:block; font-size:0.875rem; margin-bottom:0.4rem; color:#374151;">Email</label>
+                    <input id="ct-email" type="email" required placeholder="you@example.com" style="
+                        width:100%; padding:0.6rem 0.75rem; border:1px solid #d1d5db;
+                        border-radius:6px; font-size:0.95rem; box-sizing:border-box;
+                    ">
+                </div>
+                <div style="margin-bottom:1rem;">
+                    <label style="display:block; font-size:0.875rem; margin-bottom:0.4rem; color:#374151;">Password</label>
+                    <input id="ct-password" type="password" required placeholder="" style="
+                        width:100%; padding:0.6rem 0.75rem; border:1px solid #d1d5db;
+                        border-radius:6px; font-size:0.95rem; box-sizing:border-box;
+                    ">
+                </div>
+                <p id="ct-auth-error" style="display:none; color:#991b1b; font-size:0.875rem; margin-bottom:0.75rem;"></p>
+                <div style="display:flex; gap:0.5rem;">
+                    <button type="submit" id="ct-auth-submit" style="
+                        flex:1; padding:0.65rem; background:#3b82f6; color:#fff;
+                        border:none; border-radius:6px; cursor:pointer; font-size:0.95rem; font-weight:600;
+                    ">Sign In</button>
+                    <button type="button" id="ct-auth-cancel" style="
+                        padding:0.65rem 1rem; background:#f1f5f9; color:#374151;
+                        border:none; border-radius:6px; cursor:pointer; font-size:0.95rem;
+                    ">Cancel</button>
+                </div>
+            </form>
+
+            <div id="ct-logged-in" style="display:none; padding:1.5rem; text-align:center;">
+                <p id="ct-logged-email" style="font-weight:600; margin-bottom:1rem; color:#1e293b;"></p>
+                <button id="ct-logout-btn" style="
+                    padding:0.5rem 1.2rem; background:#ef4444; color:#fff;
+                    border:none; border-radius:6px; cursor:pointer; font-size:0.9rem;
+                ">Sign Out</button>
+            </div>
+        </div>
+    `;
+    document.body.appendChild(overlay);
+
+    let currentTab = 'login';
+
+    function switchTab(tab) {
+        currentTab = tab;
+        const loginBtn = document.getElementById('ct-tab-login');
+        const regBtn = document.getElementById('ct-tab-register');
+        const submit = document.getElementById('ct-auth-submit');
+        const pw = document.getElementById('ct-password');
+        if (tab === 'login') {
+            loginBtn.style.color = '#3b82f6'; loginBtn.style.borderBottomColor = '#3b82f6';
+            regBtn.style.color = '#64748b'; regBtn.style.borderBottomColor = 'transparent';
+            submit.textContent = 'Sign In';
+            pw.placeholder = '';
+        } else {
+            regBtn.style.color = '#3b82f6'; regBtn.style.borderBottomColor = '#3b82f6';
+            loginBtn.style.color = '#64748b'; loginBtn.style.borderBottomColor = 'transparent';
+            submit.textContent = 'Create Account';
+            pw.placeholder = 'At least 6 characters';
+        }
+        document.getElementById('ct-auth-error').style.display = 'none';
+    }
+
+    document.getElementById('ct-tab-login').addEventListener('click', () => switchTab('login'));
+    document.getElementById('ct-tab-register').addEventListener('click', () => switchTab('register'));
+
+    overlay.addEventListener('click', e => { if (e.target === overlay) closeModal(); });
+    document.getElementById('ct-auth-cancel').addEventListener('click', closeModal);
+    document.getElementById('ct-pending-close').addEventListener('click', closeModal);
+    document.getElementById('ct-logout-btn').addEventListener('click', () => {
+        clearToken();
+        updateSidebarLink(null);
+        updateUsersNav(null);
+        closeModal();
+    });
+
+    document.getElementById('ct-auth-form').addEventListener('submit', async e => {
+        e.preventDefault();
+        const email = document.getElementById('ct-email').value;
+        const password = document.getElementById('ct-password').value;
+        const errEl = document.getElementById('ct-auth-error');
+        const submit = document.getElementById('ct-auth-submit');
+        errEl.style.display = 'none';
+        submit.disabled = true;
+        submit.textContent = 'Please wait...';
+        try {
+            const endpoint = currentTab === 'login' ? '/api/auth/login' : '/api/auth/register';
+            const res = await fetch(`${API}${endpoint}`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email, password }),
+            });
+            const data = await res.json();
+            if (!res.ok) {
+                errEl.textContent = data.error || 'Something went wrong.';
+                errEl.style.display = 'block';
+            } else if (data.pending) {
+                document.getElementById('ct-auth-form').style.display = 'none';
+                document.getElementById('ct-auth-tabs').style.display = 'none';
+                document.getElementById('ct-pending-text').textContent = data.message;
+                document.getElementById('ct-pending-msg').style.display = 'block';
+            } else {
+                setToken(data.token);
+                updateSidebarLink(data.user);
+                updateUsersNav(data.user);
+                closeModal();
+            }
+        } catch {
+            errEl.textContent = 'Network error. Please try again.';
+            errEl.style.display = 'block';
+        } finally {
+            submit.disabled = false;
+            switchTab(currentTab);
+        }
+    });
+}
+
+function openAuthModal() {
+    const overlay = document.getElementById('ct-auth-modal');
+    if (!overlay) return;
+    const token = getToken();
+    const form = document.getElementById('ct-auth-form');
+    const loggedIn = document.getElementById('ct-logged-in');
+    const tabs = document.getElementById('ct-auth-tabs');
+    const pending = document.getElementById('ct-pending-msg');
+
+    // Reset state
+    form.style.display = '';
+    loggedIn.style.display = 'none';
+    pending.style.display = 'none';
+    tabs.style.display = '';
+    document.getElementById('ct-auth-error').style.display = 'none';
+    document.getElementById('ct-email').value = '';
+    document.getElementById('ct-password').value = '';
+
+    if (token) {
+        fetchMe(token).then(user => {
+            if (user) {
+                document.getElementById('ct-logged-email').textContent = user.email;
+                form.style.display = 'none';
+                tabs.style.display = 'none';
+                loggedIn.style.display = 'block';
+            }
+        });
+    }
+
+    overlay.style.display = 'flex';
+}
+
+function closeModal() {
+    const overlay = document.getElementById('ct-auth-modal');
+    if (overlay) overlay.style.display = 'none';
+}
+
+// ── Sidebar Conference Tracker link ───────────────────────────
+let sidebarLink = null;
+
+function updateSidebarLink(user) {
     const logo = document.querySelector('.university-logo');
     if (!logo) return;
-    const link = document.createElement('a');
-    link.href = '/conferences/';
-    link.textContent = 'Conference Tracker';
-    link.style.cssText = `
-        display: block;
-        margin-top: 2rem;
-        padding: 0.5rem 0.75rem;
-        font-size: 1rem;
-        font-weight: 600;
-        color: #444;
-        text-decoration: none;
-        border-left: 3px solid #ccc;
-        background: #f5f5f5;
-        border-radius: 0 4px 4px 0;
-        transition: background 0.2s, color 0.2s;
-    `;
-    link.addEventListener('mouseenter', () => {
-        link.style.background = '#e8e8e8';
-        link.style.color = '#1d4ed8';
-        link.style.textDecoration = 'underline';
-    });
-    link.addEventListener('mouseleave', () => {
-        link.style.background = '#f5f5f5';
-        link.style.color = '#444';
-        link.style.textDecoration = 'none';
-    });
-    logo.insertAdjacentElement('afterend', link);
+    if (user) {
+        if (!sidebarLink) {
+            sidebarLink = document.createElement('a');
+            sidebarLink.href = '/conferences/';
+            sidebarLink.textContent = 'Conference Tracker';
+            sidebarLink.style.cssText = `
+                display: block;
+                margin-top: 2rem;
+                padding: 0.5rem 0.75rem;
+                font-size: 1rem;
+                font-weight: 600;
+                color: #444;
+                text-decoration: none;
+                border-left: 3px solid #ccc;
+                background: #f5f5f5;
+                border-radius: 0 4px 4px 0;
+                transition: background 0.2s, color 0.2s;
+            `;
+            sidebarLink.addEventListener('mouseenter', () => {
+                sidebarLink.style.background = '#e8e8e8';
+                sidebarLink.style.color = '#1d4ed8';
+                sidebarLink.style.textDecoration = 'underline';
+            });
+            sidebarLink.addEventListener('mouseleave', () => {
+                sidebarLink.style.background = '#f5f5f5';
+                sidebarLink.style.color = '#444';
+                sidebarLink.style.textDecoration = 'none';
+            });
+            logo.insertAdjacentElement('afterend', sidebarLink);
+        }
+    } else {
+        if (sidebarLink) { sidebarLink.remove(); sidebarLink = null; }
+    }
+}
+
+function updateUsersNav(user) {
+    const link = document.getElementById('users-nav-link');
+    if (!link) return;
+    link.textContent = user ? `${user.email.split('@')[0]} ▾` : 'Users';
+}
+
+// ── Init ──────────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', async () => {
+    buildModal();
+
+    // Attach Users nav click (header may render after DOMContentLoaded via custom element)
+    setTimeout(() => {
+        document.getElementById('users-nav-link')?.addEventListener('click', e => {
+            e.preventDefault();
+            openAuthModal();
+        });
+    }, 0);
+
+    // Check existing session
+    const token = getToken();
+    if (token) {
+        const user = await fetchMe(token);
+        if (user) {
+            updateSidebarLink(user);
+            updateUsersNav(user);
+        } else {
+            clearToken();
+        }
+    }
 });
