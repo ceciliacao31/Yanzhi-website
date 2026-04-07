@@ -107,21 +107,29 @@ header {
 
 /* Mobile Nav */
 @media (max-width: 768px) {
+    header {
+        padding: 1rem 1.25rem;
+    }
+
     .header-content {
         flex-direction: column;
         align-items: flex-start;
     }
 
     .nav-links {
-        flex-direction: column;
+        flex-direction: row;
+        flex-wrap: wrap;
         width: 100%;
-        gap: 1rem;
-        margin-top: 1rem;
-        display: flex;
+        gap: 0.4rem 1.1rem;
+        margin-top: 0.75rem;
+    }
+
+    .nav-links a {
+        font-size: 0.9rem;
     }
 
     .brand {
-        margin-bottom: 0.5rem;
+        margin-bottom: 0.25rem;
     }
 }
 
@@ -222,7 +230,7 @@ header {
     width: 100%;
     max-width: 200px;
     height: auto;
-    margin-top: 1rem;
+    margin: 1rem auto 0;
     display: block;
 }
 
