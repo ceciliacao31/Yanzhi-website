@@ -262,46 +262,57 @@ function closeModal() {
     if (overlay) overlay.style.display = 'none';
 }
 
-// ── Sidebar Conference Tracker link ───────────────────────────
+// ── Sidebar links (Conference Tracker + PR Tool) ───────────────
 let sidebarLink = null;
+let sidebarPRLink = null;
+
+function makeSidebarLink(href, text, marginTop) {
+    const a = document.createElement('a');
+    a.href = href;
+    a.target = '_blank';
+    a.rel = 'noopener noreferrer';
+    a.textContent = text;
+    a.style.cssText = `
+        display: block;
+        margin-top: ${marginTop};
+        padding: 0.5rem 0.75rem;
+        font-size: 1rem;
+        font-weight: 600;
+        color: #444;
+        text-decoration: none;
+        border-left: 3px solid #ccc;
+        background: #f5f5f5;
+        border-radius: 0 4px 4px 0;
+        transition: background 0.2s, color 0.2s;
+    `;
+    a.addEventListener('mouseenter', () => {
+        a.style.background = '#e8e8e8';
+        a.style.color = '#1d4ed8';
+        a.style.textDecoration = 'underline';
+    });
+    a.addEventListener('mouseleave', () => {
+        a.style.background = '#f5f5f5';
+        a.style.color = '#444';
+        a.style.textDecoration = 'none';
+    });
+    return a;
+}
 
 function updateSidebarLink(user) {
     const logo = document.querySelector('.university-logo');
     if (!logo) return;
     if (user) {
         if (!sidebarLink) {
-            sidebarLink = document.createElement('a');
-            sidebarLink.href = '/conferences/';
-            sidebarLink.target = '_blank';
-            sidebarLink.rel = 'noopener noreferrer';
-            sidebarLink.textContent = 'Conference Tracker';
-            sidebarLink.style.cssText = `
-                display: block;
-                margin-top: 2rem;
-                padding: 0.5rem 0.75rem;
-                font-size: 1rem;
-                font-weight: 600;
-                color: #444;
-                text-decoration: none;
-                border-left: 3px solid #ccc;
-                background: #f5f5f5;
-                border-radius: 0 4px 4px 0;
-                transition: background 0.2s, color 0.2s;
-            `;
-            sidebarLink.addEventListener('mouseenter', () => {
-                sidebarLink.style.background = '#e8e8e8';
-                sidebarLink.style.color = '#1d4ed8';
-                sidebarLink.style.textDecoration = 'underline';
-            });
-            sidebarLink.addEventListener('mouseleave', () => {
-                sidebarLink.style.background = '#f5f5f5';
-                sidebarLink.style.color = '#444';
-                sidebarLink.style.textDecoration = 'none';
-            });
+            sidebarLink = makeSidebarLink('/conferences/', 'Conference Tracker', '2rem');
             logo.insertAdjacentElement('afterend', sidebarLink);
+        }
+        if (!sidebarPRLink) {
+            sidebarPRLink = makeSidebarLink('/pr-tool.html', 'PR Tool', '0.5rem');
+            sidebarLink.insertAdjacentElement('afterend', sidebarPRLink);
         }
     } else {
         if (sidebarLink) { sidebarLink.remove(); sidebarLink = null; }
+        if (sidebarPRLink) { sidebarPRLink.remove(); sidebarPRLink = null; }
     }
 }
 

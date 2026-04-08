@@ -12,7 +12,8 @@ export default defineConfig({
                 teaching: 'teaching.html',
                 students: 'students.html',
                 news: 'news.html',
-                opensource: 'opensource.html'
+                opensource: 'opensource.html',
+                prTool: 'pr-tool.html'
             }
         },
         outDir: 'docs', // Output to docs/ for easier GitHub Pages deployment
