@@ -306,7 +306,7 @@ function updateSidebarLink(user) {
             sidebarLink = makeSidebarLink('/conferences/', 'Conference Tracker', '2rem');
             logo.insertAdjacentElement('afterend', sidebarLink);
         }
-        if (!sidebarPRLink && (user.role === 'owner' || user.role === 'admin')) {
+        if (!sidebarPRLink) {
             sidebarPRLink = makeSidebarLink('/pr-tool.html', 'PR Tool', '0.5rem');
             sidebarLink.insertAdjacentElement('afterend', sidebarPRLink);
         }
