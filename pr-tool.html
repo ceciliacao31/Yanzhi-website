@@ -11,26 +11,31 @@
     <style>
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-        body {
+        html, body {
+            height: 100%;
+            overflow: hidden;
             font-family: 'Inter', system-ui, sans-serif;
             background: #f8fafc;
             color: #1e293b;
-            min-height: 100vh;
         }
 
-        /* Header */
+        .pr-page {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+
+        /* ── Header ── */
         .pr-header {
             background: #fff;
             border-bottom: 1px solid #e2e8f0;
             padding: 0 2rem;
-            position: sticky;
-            top: 0;
-            z-index: 50;
+            flex-shrink: 0;
         }
         .pr-header-inner {
             max-width: 1200px;
             margin: 0 auto;
-            height: 60px;
+            height: 54px;
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -40,31 +45,18 @@
             align-items: center;
             gap: 1rem;
         }
-        .pr-back {
-            font-size: 13px;
-            color: #64748b;
-            text-decoration: none;
-        }
+        .pr-back { font-size: 13px; color: #64748b; text-decoration: none; }
         .pr-back:hover { color: #1d4ed8; text-decoration: underline; }
-        .pr-header-title {
-            font-size: 1.1rem;
-            font-weight: 700;
-            color: #1e293b;
-        }
-        .pr-header-sep {
-            color: #cbd5e1;
-            font-size: 1.2rem;
-        }
+        .pr-header-title { font-size: 1.1rem; font-weight: 700; color: #1e293b; }
+        .pr-header-sep { color: #cbd5e1; font-size: 1.2rem; }
 
         /* Account switcher */
-        .account-switcher {
-            position: relative;
-        }
+        .account-switcher { position: relative; }
         .account-btn {
             display: flex;
             align-items: center;
             gap: 0.5rem;
-            padding: 0.4rem 0.875rem;
+            padding: 0.35rem 0.75rem;
             background: #f8fafc;
             border: 1px solid #e2e8f0;
             border-radius: 8px;
@@ -77,19 +69,12 @@
         }
         .account-btn:hover { background: #f1f5f9; border-color: #cbd5e1; }
         .account-avatar {
-            width: 24px;
-            height: 24px;
+            width: 22px; height: 22px;
             border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 11px;
-            font-weight: 700;
-            color: #fff;
-            flex-shrink: 0;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 10px; font-weight: 700; color: #fff; flex-shrink: 0;
         }
         .account-chevron { font-size: 10px; color: #94a3b8; }
-
         .account-dropdown {
             display: none;
             position: absolute;
@@ -99,132 +84,135 @@
             border: 1px solid #e2e8f0;
             border-radius: 10px;
             box-shadow: 0 8px 24px rgba(0,0,0,0.12);
-            min-width: 200px;
+            min-width: 190px;
             overflow: hidden;
             z-index: 100;
         }
         .account-dropdown.open { display: block; }
-
         .account-dropdown-label {
-            padding: 0.5rem 0.875rem;
-            font-size: 11px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            color: #94a3b8;
-            border-bottom: 1px solid #f1f5f9;
+            padding: 0.45rem 0.875rem;
+            font-size: 11px; font-weight: 700;
+            text-transform: uppercase; letter-spacing: 0.05em;
+            color: #94a3b8; border-bottom: 1px solid #f1f5f9;
         }
-
         .account-option {
-            display: flex;
-            align-items: center;
-            gap: 0.625rem;
-            padding: 0.625rem 0.875rem;
-            cursor: pointer;
-            transition: background 0.1s;
-            border: none;
-            background: none;
-            width: 100%;
-            text-align: left;
-            font-family: inherit;
-            font-size: 0.875rem;
-            color: #1e293b;
+            display: flex; align-items: center; gap: 0.625rem;
+            padding: 0.575rem 0.875rem;
+            cursor: pointer; transition: background 0.1s;
+            border: none; background: none; width: 100%;
+            text-align: left; font-family: inherit; font-size: 0.875rem; color: #1e293b;
         }
         .account-option:hover { background: #f8fafc; }
         .account-option.active { background: #eff6ff; }
         .account-option-name { font-weight: 600; flex: 1; }
         .account-option-check { color: #1d4ed8; font-size: 13px; }
 
-        /* Hero */
+        /* ── Hero ── */
         .pr-hero {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 3rem 2rem 1.5rem;
+            width: 100%;
+            padding: 1.25rem 2rem 1rem;
+            flex-shrink: 0;
         }
         .pr-hero-eyebrow {
             font-size: 1.1rem;
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 0.08em;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.3rem;
+        }
+        .pr-hero-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
         }
         .pr-hero h1 {
-            font-size: 2rem;
+            font-size: 1.5rem;
             font-weight: 700;
             color: #0f172a;
-            margin-bottom: 0.5rem;
-        }
-        .pr-hero p {
-            font-size: 1rem;
-            color: #64748b;
-            max-width: 560px;
-            line-height: 1.6;
         }
 
-        /* Grid */
+        /* Filter pills */
+        .pr-filters {
+            display: flex;
+            align-items: center;
+            gap: 0.375rem;
+        }
+        .pr-filter-btn {
+            padding: 0.3rem 0.875rem;
+            border-radius: 20px;
+            border: 1px solid #e2e8f0;
+            background: #fff;
+            font-family: inherit;
+            font-size: 0.82rem;
+            font-weight: 500;
+            color: #64748b;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+        .pr-filter-btn:hover { border-color: #cbd5e1; color: #1e293b; }
+        .pr-filter-btn.active {
+            background: #1e293b;
+            border-color: #1e293b;
+            color: #fff;
+        }
+
+        /* ── Grid ── */
+        .pr-grid-wrap {
+            flex: 1;
+            overflow: hidden;
+            padding: 0 2rem 1.25rem;
+        }
         .pr-grid {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 2rem;
+            height: 100%;
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 1.25rem;
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: repeat(3, 1fr);
+            gap: 1rem;
         }
 
-        /* Card */
+        /* ── Card ── */
         .pr-card {
             background: #fff;
             border: 1px solid #e2e8f0;
             border-radius: 12px;
-            padding: 1.5rem;
+            padding: 1.1rem 1.25rem;
             cursor: pointer;
             transition: box-shadow 0.2s, transform 0.15s, border-color 0.2s;
             position: relative;
             text-decoration: none;
             color: inherit;
-            display: block;
+            display: flex;
+            flex-direction: column;
         }
         .pr-card:hover {
-            box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.09);
             transform: translateY(-2px);
             border-color: #cbd5e1;
         }
         .pr-card-icon {
-            width: 48px;
-            height: 48px;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
+            width: 38px; height: 38px;
+            border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.2rem;
+            margin-bottom: 0.7rem;
+            flex-shrink: 0;
         }
-        .pr-card-name {
-            font-size: 1rem;
-            font-weight: 700;
-            color: #0f172a;
-            margin-bottom: 0.4rem;
-        }
-        .pr-card-desc {
-            font-size: 0.82rem;
-            color: #64748b;
-            line-height: 1.55;
-        }
+        .pr-card-name { font-size: 0.9rem; font-weight: 700; color: #0f172a; margin-bottom: 0.3rem; }
+        .pr-card-desc { font-size: 0.78rem; color: #64748b; line-height: 1.5; }
         .pr-card-badge {
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
-            font-size: 10px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            padding: 2px 8px;
-            border-radius: 20px;
-            background: #f1f5f9;
-            color: #94a3b8;
+            position: absolute; top: 0.875rem; right: 0.875rem;
+            font-size: 9px; font-weight: 700;
+            text-transform: uppercase; letter-spacing: 0.05em;
+            padding: 2px 7px; border-radius: 20px;
+            background: #f1f5f9; color: #94a3b8;
         }
 
-        /* Icon color themes */
+        /* Icon themes */
         .icon--blue   { background: #eff6ff; }
         .icon--amber  { background: #fffbeb; }
         .icon--green  { background: #f0fdf4; }
@@ -237,6 +225,7 @@
     </style>
 </head>
 <body>
+<div class="pr-page">
 
     <header class="pr-header">
         <div class="pr-header-inner">
@@ -253,12 +242,12 @@
                 </button>
                 <div class="account-dropdown" id="accountDropdown">
                     <div class="account-dropdown-label">Switch Account</div>
-                    <button class="account-option active" data-account="yanzhiwang" data-color="#1d4ed8">
+                    <button class="account-option active" data-account="yanzhiwang">
                         <span class="account-avatar" style="background:#1d4ed8;">Y</span>
                         <span class="account-option-name">Yanzhiwang</span>
                         <span class="account-option-check" id="check-yanzhiwang">✓</span>
                     </button>
-                    <button class="account-option" data-account="embodyx" data-color="#7c3aed">
+                    <button class="account-option" data-account="embodyx">
                         <span class="account-avatar" style="background:#7c3aed;">E</span>
                         <span class="account-option-name">EmbodyX</span>
                         <span class="account-option-check" id="check-embodyx" style="display:none">✓</span>
@@ -270,120 +259,125 @@
 
     <div class="pr-hero">
         <div class="pr-hero-eyebrow" id="heroEyebrow"></div>
-        <h1>PR &amp; Content Operations</h1>
-        <p>A unified platform to manage assets, plan content, publish across channels, and measure impact — all in one place.</p>
+        <div class="pr-hero-row">
+            <h1>PR &amp; Content Operations</h1>
+            <div class="pr-filters">
+                <button class="pr-filter-btn active" data-filter="all">All</button>
+                <button class="pr-filter-btn" data-filter="x">X</button>
+                <button class="pr-filter-btn" data-filter="rednotes">Rednotes</button>
+            </div>
+        </div>
     </div>
 
-    <div class="pr-grid">
-        <a href="#" class="pr-card">
-            <span class="pr-card-badge">Coming Soon</span>
-            <div class="pr-card-icon icon--blue">🗂️</div>
-            <div class="pr-card-name">DAM · Asset Library</div>
-            <div class="pr-card-desc">Upload, tag and search images, videos, copy and brand assets. Keep all campaign materials organized in one searchable library.</div>
-        </a>
-        <a href="#" class="pr-card">
-            <span class="pr-card-badge">Coming Soon</span>
-            <div class="pr-card-icon icon--amber">🔥</div>
-            <div class="pr-card-name">Keyword Intelligence</div>
-            <div class="pr-card-desc">Track industry hot words, surface trending discussion topics and monitor curated brand posts from key accounts.</div>
-        </a>
-        <a href="#" class="pr-card">
-            <span class="pr-card-badge">Coming Soon</span>
-            <div class="pr-card-icon icon--teal">✍️</div>
-            <div class="pr-card-name">Content Brief</div>
-            <div class="pr-card-desc">Enter a topic and AI generates a structured content brief with angles, hooks, key messages and talking points for your writers.</div>
-        </a>
-        <a href="#" class="pr-card">
-            <span class="pr-card-badge">Coming Soon</span>
-            <div class="pr-card-icon icon--green">⏰</div>
-            <div class="pr-card-name">Publish Time Predictor</div>
-            <div class="pr-card-desc">AI-recommended optimal posting windows per platform, based on your audience engagement patterns and historical data.</div>
-        </a>
-        <a href="#" class="pr-card">
-            <span class="pr-card-badge">Coming Soon</span>
-            <div class="pr-card-icon icon--purple">🔄</div>
-            <div class="pr-card-name">Matrix Publishing</div>
-            <div class="pr-card-desc">Paste one article and let AI reformat it for each platform — adjusting tone, length, hashtags and media requirements automatically.</div>
-        </a>
-        <a href="#" class="pr-card">
-            <span class="pr-card-badge">Coming Soon</span>
-            <div class="pr-card-icon icon--rose">✅</div>
-            <div class="pr-card-name">Approval Flow</div>
-            <div class="pr-card-desc">Move content through Draft → Review → Approved → Scheduled with role-based sign-offs and comment threads at each stage.</div>
-        </a>
-        <a href="#" class="pr-card">
-            <span class="pr-card-badge">Coming Soon</span>
-            <div class="pr-card-icon icon--indigo">📅</div>
-            <div class="pr-card-name">Master Calendar</div>
-            <div class="pr-card-desc">A unified calendar showing every post published across all your accounts — see publishing frequency at a glance by day and channel.</div>
-        </a>
-        <a href="#" class="pr-card">
-            <span class="pr-card-badge">Coming Soon</span>
-            <div class="pr-card-icon icon--cyan">📬</div>
-            <div class="pr-card-name">Unified Inbox</div>
-            <div class="pr-card-desc">Aggregate comments, mentions and interactions from all platforms into one feed. Prioritize, reply and track response status.</div>
-        </a>
-        <a href="#" class="pr-card">
-            <span class="pr-card-badge">Coming Soon</span>
-            <div class="pr-card-icon icon--orange">📊</div>
-            <div class="pr-card-name">Report</div>
-            <div class="pr-card-desc">Auto-generate visual reports of views, likes, shares and comments across all platforms. Export as PDF for stakeholder reviews.</div>
-        </a>
+    <div class="pr-grid-wrap">
+        <div class="pr-grid">
+            <a href="#" class="pr-card">
+                <span class="pr-card-badge">Coming Soon</span>
+                <div class="pr-card-icon icon--blue">🗂️</div>
+                <div class="pr-card-name">DAM · Asset Library</div>
+                <div class="pr-card-desc">Upload, tag and search images, videos, copy and brand assets. Keep all campaign materials organized in one searchable library.</div>
+            </a>
+            <a href="#" class="pr-card">
+                <span class="pr-card-badge">Coming Soon</span>
+                <div class="pr-card-icon icon--amber">🔥</div>
+                <div class="pr-card-name">Keyword Intelligence</div>
+                <div class="pr-card-desc">Track industry hot words, surface trending discussion topics and monitor curated brand posts from key accounts.</div>
+            </a>
+            <a href="#" class="pr-card">
+                <span class="pr-card-badge">Coming Soon</span>
+                <div class="pr-card-icon icon--teal">✍️</div>
+                <div class="pr-card-name">Content Brief</div>
+                <div class="pr-card-desc">Enter a topic and AI generates a structured content brief with angles, hooks, key messages and talking points for your writers.</div>
+            </a>
+            <a href="#" class="pr-card">
+                <span class="pr-card-badge">Coming Soon</span>
+                <div class="pr-card-icon icon--green">⏰</div>
+                <div class="pr-card-name">Publish Time Predictor</div>
+                <div class="pr-card-desc">AI-recommended optimal posting windows per platform, based on your audience engagement patterns and historical data.</div>
+            </a>
+            <a href="#" class="pr-card">
+                <span class="pr-card-badge">Coming Soon</span>
+                <div class="pr-card-icon icon--purple">🔄</div>
+                <div class="pr-card-name">Matrix Publishing</div>
+                <div class="pr-card-desc">Paste one article and let AI reformat it for each platform — adjusting tone, length, hashtags and media requirements automatically.</div>
+            </a>
+            <a href="#" class="pr-card">
+                <span class="pr-card-badge">Coming Soon</span>
+                <div class="pr-card-icon icon--rose">✅</div>
+                <div class="pr-card-name">Approval Flow</div>
+                <div class="pr-card-desc">Move content through Draft → Review → Approved → Scheduled with role-based sign-offs and comment threads at each stage.</div>
+            </a>
+            <a href="#" class="pr-card">
+                <span class="pr-card-badge">Coming Soon</span>
+                <div class="pr-card-icon icon--indigo">📅</div>
+                <div class="pr-card-name">Master Calendar</div>
+                <div class="pr-card-desc">A unified calendar showing every post published across all your accounts — see publishing frequency at a glance by day and channel.</div>
+            </a>
+            <a href="#" class="pr-card">
+                <span class="pr-card-badge">Coming Soon</span>
+                <div class="pr-card-icon icon--cyan">📬</div>
+                <div class="pr-card-name">Unified Inbox</div>
+                <div class="pr-card-desc">Aggregate comments, mentions and interactions from all platforms into one feed. Prioritize, reply and track response status.</div>
+            </a>
+            <a href="#" class="pr-card">
+                <span class="pr-card-badge">Coming Soon</span>
+                <div class="pr-card-icon icon--orange">📊</div>
+                <div class="pr-card-name">Report</div>
+                <div class="pr-card-desc">Auto-generate visual reports of views, likes, shares and comments across all platforms. Export as PDF for stakeholder reviews.</div>
+            </a>
+        </div>
     </div>
 
-    <script>
-        const ACCOUNTS = {
-            yanzhiwang: { name: 'Yanzhiwang', color: '#1d4ed8', initial: 'Y' },
-            embodyx:    { name: 'EmbodyX',    color: '#7c3aed', initial: 'E' },
-        };
+</div>
 
-        let current = localStorage.getItem('pr_account') || 'yanzhiwang';
+<script>
+    const ACCOUNTS = {
+        yanzhiwang: { name: 'Yanzhiwang', color: '#1d4ed8', initial: 'Y' },
+        embodyx:    { name: 'EmbodyX',    color: '#7c3aed', initial: 'E' },
+    };
 
-        function applyAccount(key) {
-            const acc = ACCOUNTS[key];
-            current = key;
-            localStorage.setItem('pr_account', key);
+    let current = localStorage.getItem('pr_account') || 'yanzhiwang';
 
-            // Header button
-            document.getElementById('accountName').textContent = acc.name;
-            const avatar = document.getElementById('accountAvatar');
-            avatar.textContent = acc.initial;
-            avatar.style.background = acc.color;
-
-            // Hero eyebrow
-            const eyebrow = document.getElementById('heroEyebrow');
-            eyebrow.textContent = acc.name;
-            eyebrow.style.color = acc.color;
-
-            // Dropdown active states
-            document.querySelectorAll('.account-option').forEach(btn => {
-                const isActive = btn.dataset.account === key;
-                btn.classList.toggle('active', isActive);
-                document.getElementById('check-' + btn.dataset.account).style.display = isActive ? '' : 'none';
-            });
-        }
-
-        // Toggle dropdown
-        document.getElementById('accountBtn').addEventListener('click', (e) => {
-            e.stopPropagation();
-            document.getElementById('accountDropdown').classList.toggle('open');
+    function applyAccount(key) {
+        const acc = ACCOUNTS[key];
+        current = key;
+        localStorage.setItem('pr_account', key);
+        document.getElementById('accountName').textContent = acc.name;
+        const avatar = document.getElementById('accountAvatar');
+        avatar.textContent = acc.initial;
+        avatar.style.background = acc.color;
+        const eyebrow = document.getElementById('heroEyebrow');
+        eyebrow.textContent = acc.name;
+        eyebrow.style.color = acc.color;
+        document.querySelectorAll('.account-option').forEach(btn => {
+            const isActive = btn.dataset.account === key;
+            btn.classList.toggle('active', isActive);
+            document.getElementById('check-' + btn.dataset.account).style.display = isActive ? '' : 'none';
         });
+    }
 
-        // Close on outside click
-        document.addEventListener('click', () => {
+    document.getElementById('accountBtn').addEventListener('click', e => {
+        e.stopPropagation();
+        document.getElementById('accountDropdown').classList.toggle('open');
+    });
+    document.addEventListener('click', () => {
+        document.getElementById('accountDropdown').classList.remove('open');
+    });
+    document.querySelectorAll('.account-option').forEach(btn => {
+        btn.addEventListener('click', () => {
+            applyAccount(btn.dataset.account);
             document.getElementById('accountDropdown').classList.remove('open');
         });
+    });
 
-        // Account option click
-        document.querySelectorAll('.account-option').forEach(btn => {
-            btn.addEventListener('click', () => {
-                applyAccount(btn.dataset.account);
-                document.getElementById('accountDropdown').classList.remove('open');
-            });
+    document.querySelectorAll('.pr-filter-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('.pr-filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
         });
+    });
 
-        // Init
-        applyAccount(current);
-    </script>
+    applyAccount(current);
+</script>
 </body>
 </html>
