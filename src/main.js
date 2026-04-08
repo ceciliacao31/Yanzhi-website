@@ -272,6 +272,8 @@ function updateSidebarLink(user) {
         if (!sidebarLink) {
             sidebarLink = document.createElement('a');
             sidebarLink.href = '/conferences/';
+            sidebarLink.target = '_blank';
+            sidebarLink.rel = 'noopener noreferrer';
             sidebarLink.textContent = 'Conference Tracker';
             sidebarLink.style.cssText = `
                 display: block;
