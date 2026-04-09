@@ -262,6 +262,29 @@
             color: #fff;
         }
 
+        /* Download button */
+        .dam-asset-actions {
+            display: flex;
+            justify-content: flex-end;
+            padding: 0 0.75rem 0.625rem;
+        }
+        .dam-download-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            padding: 0.25rem 0.6rem;
+            font-size: 11px;
+            font-weight: 600;
+            color: #475569;
+            background: #f1f5f9;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            text-decoration: none;
+            cursor: pointer;
+            transition: background 0.15s, color 0.15s;
+        }
+        .dam-download-btn:hover { background: #e2e8f0; color: #1e293b; }
+
         /* Auth gate */
         .dam-gate {
             display: none;
@@ -321,7 +344,8 @@
                     <span class="dam-search-icon">🔍</span>
                     <input type="text" placeholder="Search assets…" />
                 </div>
-                <button class="dam-upload-btn">＋ Upload</button>
+                <button class="dam-upload-btn" id="uploadBtn">＋ Upload</button>
+                <input type="file" id="fileInput" accept="image/*,video/*,.pdf,.doc,.docx" multiple style="display:none" />
             </div>
         </div>
     </header>
@@ -354,10 +378,12 @@
                 </div>
             </div>
             <div class="dam-grid">
-                <a class="dam-asset" href="/dam/logo/aibao-logo.PNG" target="_blank" rel="noopener noreferrer">
-                    <div class="dam-asset-thumb">
-                        <img src="/dam/logo/aibao-logo.PNG" alt="AIBao Logo" />
-                    </div>
+                <div class="dam-asset">
+                    <a href="/dam/logo/aibao-logo.PNG" target="_blank" rel="noopener noreferrer">
+                        <div class="dam-asset-thumb">
+                            <img src="/dam/logo/aibao-logo.PNG" alt="AIBao Logo" />
+                        </div>
+                    </a>
                     <div class="dam-asset-info">
                         <div class="dam-asset-name">aibao-logo.PNG</div>
                         <div class="dam-asset-meta">
@@ -365,11 +391,16 @@
                             <span class="dam-asset-account" style="background:#1d4ed8;">Yanzhiwang</span>
                         </div>
                     </div>
-                </a>
-                <a class="dam-asset" href="/dam/logo/embodyx-logo.PNG" target="_blank" rel="noopener noreferrer">
-                    <div class="dam-asset-thumb">
-                        <img src="/dam/logo/embodyx-logo.PNG" alt="EmbodyX Logo" />
+                    <div class="dam-asset-actions">
+                        <a class="dam-download-btn" href="/dam/logo/aibao-logo.PNG" download="aibao-logo.PNG">⬇ Download</a>
                     </div>
+                </div>
+                <div class="dam-asset">
+                    <a href="/dam/logo/embodyx-logo.PNG" target="_blank" rel="noopener noreferrer">
+                        <div class="dam-asset-thumb">
+                            <img src="/dam/logo/embodyx-logo.PNG" alt="EmbodyX Logo" />
+                        </div>
+                    </a>
                     <div class="dam-asset-info">
                         <div class="dam-asset-name">embodyx-logo.PNG</div>
                         <div class="dam-asset-meta">
@@ -377,7 +408,10 @@
                             <span class="dam-asset-account" style="background:#7c3aed;">EmbodyX</span>
                         </div>
                     </div>
-                </a>
+                    <div class="dam-asset-actions">
+                        <a class="dam-download-btn" href="/dam/logo/embodyx-logo.PNG" download="embodyx-logo.PNG">⬇ Download</a>
+                    </div>
+                </div>
             </div>
         </main>
 
@@ -415,6 +449,50 @@
     }
 
     checkAccess();
+
+    // Upload
+    document.getElementById('uploadBtn').addEventListener('click', () => {
+        document.getElementById('fileInput').click();
+    });
+
+    document.getElementById('fileInput').addEventListener('change', (e) => {
+        const files = Array.from(e.target.files);
+        const grid = document.querySelector('.dam-grid');
+        const accKey = localStorage.getItem('pr_account') || 'yanzhiwang';
+        const acc = ACCOUNTS[accKey] || ACCOUNTS.yanzhiwang;
+
+        files.forEach(file => {
+            const url = URL.createObjectURL(file);
+            const ext = file.name.split('.').pop().toUpperCase();
+            const isImage = file.type.startsWith('image/');
+
+            const card = document.createElement('div');
+            card.className = 'dam-asset';
+            card.innerHTML = `
+                <a href="${url}" target="_blank" rel="noopener noreferrer">
+                    <div class="dam-asset-thumb">
+                        ${isImage ? `<img src="${url}" alt="${file.name}" />` : `<span style="font-size:2rem">📄</span>`}
+                    </div>
+                </a>
+                <div class="dam-asset-info">
+                    <div class="dam-asset-name">${file.name}</div>
+                    <div class="dam-asset-meta">
+                        <span class="dam-asset-type">${ext}</span>
+                        <span class="dam-asset-account" style="background:${acc.color}">${acc.name}</span>
+                    </div>
+                </div>
+                <div class="dam-asset-actions">
+                    <a class="dam-download-btn" href="${url}" download="${file.name}">⬇ Download</a>
+                </div>
+            `;
+            grid.appendChild(card);
+        });
+
+        // Update count
+        const total = grid.querySelectorAll('.dam-asset').length;
+        document.getElementById('assetCount').textContent = `${total} assets`;
+        e.target.value = '';
+    });
 </script>
 </body>
 </html>
