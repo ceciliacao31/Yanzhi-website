@@ -455,7 +455,7 @@
                 const rawText = await res.text();
                 if (!res.ok) {
                     let errMsg = `HTTP ${res.status}`;
-                    try { errMsg = JSON.parse(rawText).error || errMsg; } catch {}
+                    try { const j = JSON.parse(rawText); errMsg = (j.error || errMsg) + (j.detail ? ' — ' + j.detail : ''); } catch {}
                     throw new Error(errMsg + '\n\nServer response: ' + rawText.slice(0, 200));
                 }
 
