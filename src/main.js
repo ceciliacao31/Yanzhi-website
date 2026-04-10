@@ -299,7 +299,7 @@ function makeSidebarLink(href, text, marginTop) {
 }
 
 function updateSidebarLink(user) {
-    const logo = document.querySelector('.university-logo');
+    const logo = document.getElementById('embodyx-sidebar-logo') || document.querySelector('.university-logo');
     if (!logo) return;
     if (user) {
         if (!sidebarLink) {
