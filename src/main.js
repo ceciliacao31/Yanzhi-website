@@ -306,9 +306,13 @@ function updateSidebarLink(user) {
             sidebarLink = makeSidebarLink('/conferences/', 'Conference Tracker', '2rem');
             logo.insertAdjacentElement('afterend', sidebarLink);
         }
-        if (!sidebarPRLink) {
+        const isAdminOrOwner = user.role === 'admin' || user.role === 'owner';
+        if (isAdminOrOwner && !sidebarPRLink) {
             sidebarPRLink = makeSidebarLink('/pr-tool.html', 'PR Tool', '0.5rem');
             sidebarLink.insertAdjacentElement('afterend', sidebarPRLink);
+        } else if (!isAdminOrOwner && sidebarPRLink) {
+            sidebarPRLink.remove();
+            sidebarPRLink = null;
         }
     } else {
         if (sidebarLink) { sidebarLink.remove(); sidebarLink = null; }
