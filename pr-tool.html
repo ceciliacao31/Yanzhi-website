@@ -289,6 +289,11 @@
                     <span class="account-option-name">EmbodyX</span>
                     <span class="account-option-check" id="check-embodyx" style="display:none">✓</span>
                 </button>
+                <button class="account-option" data-account="moxin">
+                    <span class="account-avatar" style="background:#0891b2;">M</span>
+                    <span class="account-option-name">Moxin</span>
+                    <span class="account-option-check" id="check-moxin" style="display:none">✓</span>
+                </button>
             </div>
         </div>
     </div>
@@ -503,7 +508,7 @@ let currentView = 'hub';      // 'hub' | 'tools'
 let currentHubType = null;    // null = overview, string = drilled into category
 
 // ── Account switcher ──────────────────────────────────────────────────────────
-const ACCOUNTS = { yanzhiwang:{name:'Yanzhiwang',color:'#1d4ed8',initial:'Y'}, embodyx:{name:'EmbodyX',color:'#7c3aed',initial:'E'} };
+const ACCOUNTS = { yanzhiwang:{name:'Yanzhiwang',color:'#1d4ed8',initial:'Y'}, embodyx:{name:'EmbodyX',color:'#7c3aed',initial:'E'}, moxin:{name:'Moxin',color:'#0891b2',initial:'M'} };
 let currentAccount = localStorage.getItem('pr_account') || 'yanzhiwang';
 
 function applyAccount(key) {
