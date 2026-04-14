@@ -10,33 +10,12 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Inter', system-ui, sans-serif; background: #f8fafc; color: #1e293b; min-height: 100vh; }
 
-        body {
-            font-family: 'Inter', system-ui, sans-serif;
-            background: #f8fafc;
-            color: #1e293b;
-            min-height: 100vh;
-        }
-
-        /* Header */
-        .pr-header {
-            background: #fff;
-            border-bottom: 1px solid #e2e8f0;
-            padding: 0 2rem;
-        }
-        .pr-header-inner {
-            max-width: 1200px;
-            margin: 0 auto;
-            height: 60px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-        .pr-header-left {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
+        /* ── Header ── */
+        .pr-header { background: #fff; border-bottom: 1px solid #e2e8f0; padding: 0 2rem; }
+        .pr-header-inner { max-width: 1200px; margin: 0 auto; height: 60px; display: flex; align-items: center; justify-content: space-between; }
+        .pr-header-left { display: flex; align-items: center; gap: 1rem; }
         .pr-back { font-size: 13px; color: #64748b; text-decoration: none; }
         .pr-back:hover { color: #1d4ed8; text-decoration: underline; }
         .pr-header-title { font-size: 1.1rem; font-weight: 700; color: #1e293b; }
@@ -44,187 +23,124 @@
 
         /* Account switcher */
         .account-switcher { position: relative; }
-        .account-btn {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.4rem 0.875rem;
-            background: #f8fafc;
-            border: 1px solid #e2e8f0;
-            border-radius: 8px;
-            cursor: pointer;
-            font-family: inherit;
-            font-size: 0.875rem;
-            font-weight: 600;
-            color: #1e293b;
-            transition: background 0.15s, border-color 0.15s;
-        }
+        .account-btn { display: flex; align-items: center; gap: 0.5rem; padding: 0.4rem 0.875rem; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; cursor: pointer; font-family: inherit; font-size: 0.875rem; font-weight: 600; color: #1e293b; transition: background 0.15s, border-color 0.15s; }
         .account-btn:hover { background: #f1f5f9; border-color: #cbd5e1; }
-        .account-avatar {
-            width: 24px; height: 24px;
-            border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 11px; font-weight: 700; color: #fff; flex-shrink: 0;
-        }
+        .account-avatar { width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; color: #fff; flex-shrink: 0; }
         .account-chevron { font-size: 10px; color: #94a3b8; }
-        .account-dropdown {
-            display: none;
-            position: absolute;
-            top: calc(100% + 6px);
-            right: 0;
-            background: #fff;
-            border: 1px solid #e2e8f0;
-            border-radius: 10px;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.12);
-            min-width: 200px;
-            overflow: hidden;
-            z-index: 100;
-        }
+        .account-dropdown { display: none; position: absolute; top: calc(100% + 6px); right: 0; background: #fff; border: 1px solid #e2e8f0; border-radius: 10px; box-shadow: 0 8px 24px rgba(0,0,0,0.12); min-width: 200px; overflow: hidden; z-index: 100; }
         .account-dropdown.open { display: block; }
-        .account-dropdown-label {
-            padding: 0.5rem 0.875rem;
-            font-size: 11px; font-weight: 700;
-            text-transform: uppercase; letter-spacing: 0.05em;
-            color: #94a3b8; border-bottom: 1px solid #f1f5f9;
-        }
-        .account-option {
-            display: flex; align-items: center; gap: 0.625rem;
-            padding: 0.625rem 0.875rem;
-            cursor: pointer; transition: background 0.1s;
-            border: none; background: none; width: 100%;
-            text-align: left; font-family: inherit; font-size: 0.875rem; color: #1e293b;
-        }
+        .account-dropdown-label { padding: 0.5rem 0.875rem; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: #94a3b8; border-bottom: 1px solid #f1f5f9; }
+        .account-option { display: flex; align-items: center; gap: 0.625rem; padding: 0.625rem 0.875rem; cursor: pointer; transition: background 0.1s; border: none; background: none; width: 100%; text-align: left; font-family: inherit; font-size: 0.875rem; color: #1e293b; }
         .account-option:hover { background: #f8fafc; }
         .account-option.active { background: #eff6ff; }
         .account-option-name { font-weight: 600; flex: 1; }
         .account-option-check { color: #1d4ed8; font-size: 13px; }
 
-        /* Hero */
-        .pr-hero {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 1.5rem 2rem 1rem;
-        }
-        .pr-hero-eyebrow {
-            font-size: 1.1rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-            margin-bottom: 0.4rem;
-        }
-        .pr-hero-row {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 1rem;
-        }
-        .pr-hero h1 {
-            font-size: 2rem;
-            font-weight: 700;
-            color: #0f172a;
-        }
+        /* ── Hero bar ── */
+        .pr-hero { max-width: 1200px; margin: 0 auto; padding: 1.25rem 2rem 1rem; }
+        .pr-hero-eyebrow { font-size: 1.1rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.35rem; }
+        .pr-hero-row { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
+        .pr-hero h1 { font-size: 1.9rem; font-weight: 700; color: #0f172a; flex-shrink: 0; }
 
-        /* Filter pills */
-        .pr-filters {
-            display: flex;
-            align-items: center;
-            gap: 0.375rem;
-        }
-        .pr-filter-btn {
-            padding: 0.3rem 0.875rem;
-            border-radius: 20px;
-            border: 1px solid #e2e8f0;
-            background: #fff;
-            font-family: inherit;
-            font-size: 0.82rem;
-            font-weight: 500;
-            color: #64748b;
-            cursor: pointer;
-            transition: all 0.15s;
-        }
+        /* View toggle */
+        .pr-view-toggle { display: flex; border: 1px solid #e2e8f0; border-radius: 8px; overflow: hidden; flex-shrink: 0; }
+        .pr-view-btn { padding: 0.35rem 0.875rem; font-size: 0.82rem; font-weight: 600; border: none; background: #f8fafc; color: #64748b; cursor: pointer; font-family: inherit; transition: all 0.15s; white-space: nowrap; }
+        .pr-view-btn + .pr-view-btn { border-left: 1px solid #e2e8f0; }
+        .pr-view-btn.active { background: #1e293b; color: #fff; }
+
+        /* Hub filters */
+        .pr-hub-filters { display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; margin-left: auto; }
+        .pr-select { padding: 0.35rem 0.65rem; border: 1px solid #e2e8f0; border-radius: 7px; font-family: inherit; font-size: 0.82rem; background: #fff; color: #1e293b; cursor: pointer; }
+        .pr-add-btn { display: flex; align-items: center; gap: 0.35rem; padding: 0.35rem 0.875rem; background: #1e293b; color: #fff; border: none; border-radius: 7px; font-family: inherit; font-size: 0.82rem; font-weight: 600; cursor: pointer; white-space: nowrap; }
+        .pr-add-btn:hover { background: #0f172a; }
+
+        /* Tools filters */
+        .pr-tools-filters { display: flex; align-items: center; gap: 0.375rem; margin-left: auto; }
+        .pr-filter-btn { padding: 0.3rem 0.875rem; border-radius: 20px; border: 1px solid #e2e8f0; background: #fff; font-family: inherit; font-size: 0.82rem; font-weight: 500; color: #64748b; cursor: pointer; transition: all 0.15s; }
         .pr-filter-btn:hover { border-color: #cbd5e1; color: #1e293b; }
-        .pr-filter-btn.active {
-            background: #1e293b;
-            border-color: #1e293b;
-            color: #fff;
-        }
+        .pr-filter-btn.active { background: #1e293b; border-color: #1e293b; color: #fff; }
 
-        /* Grid */
-        .pr-grid {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 1rem 2rem 2rem;
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 1.25rem;
-        }
+        /* ── Hub view ── */
+        .hub-view { max-width: 1200px; margin: 0 auto; padding: 0 2rem 3rem; }
 
-        /* Card */
-        .pr-card {
-            background: #fff;
-            border: 1px solid #e2e8f0;
-            border-radius: 12px;
-            padding: 1.5rem;
-            cursor: pointer;
-            transition: box-shadow 0.2s, transform 0.15s, border-color 0.2s;
-            position: relative;
-            text-decoration: none;
-            color: inherit;
-            display: block;
-        }
-        .pr-card:hover {
-            box-shadow: 0 8px 24px rgba(0,0,0,0.1);
-            transform: translateY(-2px);
-            border-color: #cbd5e1;
-        }
-        .pr-card-icon {
-            width: 48px; height: 48px;
-            border-radius: 12px;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-        }
+        /* Stats */
+        .hub-stats { display: flex; gap: 1rem; margin-bottom: 1.25rem; flex-wrap: wrap; }
+        .hub-stat { background: #fff; border: 1px solid #e2e8f0; border-radius: 10px; padding: 0.875rem 1.25rem; flex: 1; min-width: 120px; }
+        .hub-stat-num { font-size: 1.75rem; font-weight: 700; line-height: 1; }
+        .hub-stat-label { font-size: 0.72rem; color: #64748b; margin-top: 0.25rem; }
+        .hub-stat--done .hub-stat-num { color: #16a34a; }
+        .hub-stat--progress .hub-stat-num { color: #d97706; }
+        .hub-stat--new .hub-stat-num { color: #64748b; }
+
+        /* Section */
+        .hub-section-title { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: #94a3b8; margin: 1.25rem 0 0.5rem; padding-bottom: 0.35rem; border-bottom: 1px solid #f1f5f9; }
+
+        /* Cards */
+        .hub-card { background: #fff; border: 1px solid #e2e8f0; border-radius: 10px; margin-bottom: 0.5rem; overflow: hidden; transition: box-shadow 0.15s; }
+        .hub-card:hover { box-shadow: 0 2px 8px rgba(0,0,0,0.07); }
+        .hub-card-main { display: flex; align-items: flex-start; gap: 0.875rem; padding: 0.875rem 1rem; }
+        .hub-card-type-icon { font-size: 1.2rem; flex-shrink: 0; margin-top: 2px; }
+        .hub-card-body { flex: 1; min-width: 0; }
+        .hub-card-title { font-size: 0.875rem; font-weight: 600; color: #1e293b; line-height: 1.35; }
+        .hub-card-title a { color: inherit; text-decoration: underline; text-decoration-color: #cbd5e1; text-underline-offset: 2px; }
+        .hub-card-title a:hover { color: #1d4ed8; text-decoration-color: #1d4ed8; }
+        .hub-card-meta { display: flex; flex-wrap: wrap; gap: 0.3rem; margin-top: 0.3rem; align-items: center; }
+        .hub-tag { font-size: 0.68rem; font-weight: 600; padding: 1px 6px; border-radius: 4px; border: 1px solid; white-space: nowrap; }
+        .hub-tag--paper       { color: #1d4ed8; background: #eff6ff; border-color: #bfdbfe; }
+        .hub-tag--finding     { color: #7c3aed; background: #f5f3ff; border-color: #ddd6fe; }
+        .hub-tag--product     { color: #0369a1; background: #f0f9ff; border-color: #bae6fd; }
+        .hub-tag--project     { color: #065f46; background: #ecfdf5; border-color: #a7f3d0; }
+        .hub-tag--announcement{ color: #92400e; background: #fffbeb; border-color: #fde68a; }
+        .hub-tag--meta        { color: #475569; background: #f8fafc; border-color: #e2e8f0; }
+        .hub-tag--status      { color: #166534; background: #f0fdf4; border-color: #bbf7d0; }
+        .hub-tag--status-r    { color: #991b1b; background: #fef2f2; border-color: #fecaca; }
+        .hub-priority-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+        .hub-priority-dot--high { background: #ef4444; }
+        .hub-priority-dot--medium { background: #f59e0b; }
+        .hub-priority-dot--low { background: #94a3b8; }
+
+        .hub-card-actions { display: flex; align-items: center; gap: 0.4rem; flex-shrink: 0; }
+        .hub-gen-btn { display: inline-flex; align-items: center; gap: 0.25rem; padding: 0.28rem 0.65rem; border-radius: 6px; border: 1px solid #e2e8f0; background: #f8fafc; color: #475569; font-size: 0.78rem; font-weight: 600; text-decoration: none; transition: all 0.15s; white-space: nowrap; }
+        .hub-gen-btn:hover { background: #1e293b; color: #fff; border-color: #1e293b; }
+        .hub-content-btn { display: inline-flex; align-items: center; gap: 0.2rem; padding: 0.28rem 0.55rem; border-radius: 6px; border: 1px solid #e2e8f0; background: #f8fafc; color: #64748b; font-size: 0.75rem; font-weight: 600; cursor: pointer; transition: all 0.15s; white-space: nowrap; }
+        .hub-content-btn:hover { background: #eff6ff; color: #1d4ed8; border-color: #bfdbfe; }
+        .hub-content-btn--has { border-color: #bfdbfe; color: #1d4ed8; background: #eff6ff; }
+        .hub-menu-btn { background: none; border: 1px solid #e2e8f0; border-radius: 6px; padding: 0.28rem 0.5rem; cursor: pointer; font-size: 14px; color: #94a3b8; }
+        .hub-menu-btn:hover { background: #f1f5f9; color: #475569; }
+
+        /* PR badges */
+        .hub-card-footer { display: flex; align-items: center; gap: 0.5rem; padding: 0.4rem 1rem 0.65rem 3rem; flex-wrap: wrap; }
+        .hub-pr-badges { display: flex; gap: 0.35rem; align-items: center; }
+        .hub-pr-badge { position: relative; width: 30px; height: 30px; border-radius: 8px; border: 1.5px solid #e2e8f0; background: #f8fafc; display: inline-flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.15s; padding: 0; flex-shrink: 0; }
+        .hub-pr-badge:hover { border-color: #94a3b8; background: #f1f5f9; transform: scale(1.08); }
+        .hub-pr-badge--done { border-color: #86efac; background: #f0fdf4; box-shadow: 0 0 0 2px #bbf7d0; }
+        .hub-pr-badge--done:hover { background: #fef2f2; border-color: #fca5a5; box-shadow: 0 0 0 2px #fecaca; }
+        .hub-pr-check { position: absolute; top: -5px; right: -5px; width: 12px; height: 12px; border-radius: 50%; background: #22c55e; color: #fff; font-size: 7px; font-weight: 800; display: flex; align-items: center; justify-content: center; border: 1.5px solid #fff; }
+
+        /* Metrics panel */
+        .hub-metrics-panel { border-top: 1px solid #f1f5f9; padding: 0.875rem 1rem 0.875rem 3rem; display: none; background: #fafafa; }
+        .hub-metrics-panel.open { display: block; }
+        .hub-metrics-header { font-size: 0.78rem; font-weight: 700; color: #475569; margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.5rem; }
+        .hub-metrics-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem 1rem; margin-bottom: 0.75rem; }
+        .hub-metrics-field { display: flex; flex-direction: column; gap: 0.2rem; }
+        .hub-metrics-field label { font-size: 0.68rem; font-weight: 600; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.04em; }
+        .hub-metrics-field input { padding: 0.35rem 0.55rem; border: 1px solid #e2e8f0; border-radius: 6px; font-family: inherit; font-size: 0.82rem; background: #fff; color: #1e293b; }
+        .hub-metrics-field input:focus { outline: none; border-color: #94a3b8; background: #fff; }
+        .hub-metrics-wide { grid-column: 1 / -1; }
+        .hub-metrics-save { padding: 0.35rem 0.875rem; background: #1e293b; color: #fff; border: none; border-radius: 6px; font-family: inherit; font-size: 0.8rem; font-weight: 600; cursor: pointer; }
+        .hub-metrics-save:hover { background: #0f172a; }
+        .hub-metrics-unmark { padding: 0.35rem 0.875rem; background: none; border: 1px solid #e2e8f0; color: #ef4444; border-radius: 6px; font-family: inherit; font-size: 0.8rem; font-weight: 600; cursor: pointer; margin-left: 0.5rem; }
+        .hub-metrics-unmark:hover { background: #fef2f2; border-color: #fca5a5; }
+
+        /* ── Tools view ── */
+        .tools-view { max-width: 1200px; margin: 0 auto; padding: 0.75rem 2rem 3rem; }
+        .pr-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.25rem; }
+        .pr-card { background: #fff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 1.5rem; cursor: pointer; transition: box-shadow 0.2s, transform 0.15s, border-color 0.2s; position: relative; text-decoration: none; color: inherit; display: block; }
+        .pr-card:hover { box-shadow: 0 8px 24px rgba(0,0,0,0.1); transform: translateY(-2px); border-color: #cbd5e1; }
+        .pr-card-icon { width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin-bottom: 1rem; }
         .pr-card-name { font-size: 1rem; font-weight: 700; color: #0f172a; margin-bottom: 0.4rem; }
         .pr-card-desc { font-size: 0.82rem; color: #64748b; line-height: 1.55; }
-        .pr-card-badge {
-            position: absolute; top: 1rem; right: 1rem;
-            font-size: 10px; font-weight: 700;
-            text-transform: uppercase; letter-spacing: 0.05em;
-            padding: 2px 8px; border-radius: 20px;
-            background: #f1f5f9; color: #94a3b8;
-        }
-
-        /* Auth gate */
-        .pr-gate {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: #f8fafc;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-            gap: 1rem;
-            z-index: 999;
-        }
-        .pr-gate.visible { display: flex; }
-        .pr-gate-icon { font-size: 2.5rem; }
-        .pr-gate-title { font-size: 1.25rem; font-weight: 700; color: #0f172a; }
-        .pr-gate-desc { font-size: 0.9rem; color: #64748b; }
-        .pr-gate-btn {
-            margin-top: 0.5rem;
-            padding: 0.5rem 1.25rem;
-            background: #1e293b;
-            color: #fff;
-            border: none;
-            border-radius: 8px;
-            font-family: inherit;
-            font-size: 0.875rem;
-            font-weight: 600;
-            cursor: pointer;
-            text-decoration: none;
-        }
-
-        /* Icon themes */
+        .pr-card-badge { position: absolute; top: 1rem; right: 1rem; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; padding: 2px 8px; border-radius: 20px; background: #f1f5f9; color: #94a3b8; }
         .icon--blue   { background: #eff6ff; }
         .icon--amber  { background: #fffbeb; }
         .icon--green  { background: #f0fdf4; }
@@ -234,65 +150,160 @@
         .icon--orange { background: #fff7ed; }
         .icon--indigo { background: #eef2ff; }
         .icon--teal   { background: #f0fdfa; }
+
+        /* ── Auth gate ── */
+        .pr-gate { display: none; position: fixed; inset: 0; background: #f8fafc; align-items: center; justify-content: center; flex-direction: column; gap: 1rem; z-index: 999; }
+        .pr-gate.visible { display: flex; }
+        .pr-gate-icon { font-size: 2.5rem; }
+        .pr-gate-title { font-size: 1.25rem; font-weight: 700; }
+        .pr-gate-desc { font-size: 0.9rem; color: #64748b; }
+        .pr-gate-btn { margin-top: 0.5rem; padding: 0.5rem 1.25rem; background: #1e293b; color: #fff; border: none; border-radius: 8px; font-family: inherit; font-size: 0.875rem; font-weight: 600; cursor: pointer; text-decoration: none; }
+
+        /* ── Modals ── */
+        .hub-modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.35); z-index: 200; align-items: center; justify-content: center; }
+        .hub-modal-overlay.open { display: flex; }
+        .hub-modal { background: #fff; border-radius: 12px; width: 620px; max-width: 95vw; max-height: 85vh; display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 20px 40px rgba(0,0,0,0.2); }
+        .hub-modal-header { display: flex; align-items: center; justify-content: space-between; padding: 1rem 1.25rem; border-bottom: 1px solid #e2e8f0; flex-shrink: 0; }
+        .hub-modal-title { font-size: 0.95rem; font-weight: 700; }
+        .hub-modal-close { background: none; border: none; font-size: 16px; color: #94a3b8; cursor: pointer; padding: 0.25rem; }
+        .hub-modal-close:hover { color: #1e293b; }
+        .hub-modal-body { padding: 1.25rem; overflow-y: auto; flex: 1; }
+        .hub-form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+        .hub-form-field { display: flex; flex-direction: column; gap: 0.3rem; font-size: 0.8rem; font-weight: 600; color: #64748b; }
+        .hub-form-field input, .hub-form-field select, .hub-form-field textarea { padding: 0.45rem 0.65rem; border: 1px solid #e2e8f0; border-radius: 7px; font-family: inherit; font-size: 0.875rem; background: #f8fafc; color: #1e293b; }
+        .hub-form-field input:focus, .hub-form-field select:focus, .hub-form-field textarea:focus { outline: none; border-color: #94a3b8; background: #fff; }
+        .hub-form-field textarea { resize: vertical; min-height: 70px; }
+        .hub-form-full { grid-column: 1 / -1; }
+        .hub-form-actions { display: flex; gap: 0.5rem; margin-top: 1rem; }
+        .hub-btn-primary { padding: 0.45rem 1rem; background: #1e293b; color: #fff; border: none; border-radius: 7px; font-family: inherit; font-size: 0.875rem; font-weight: 600; cursor: pointer; }
+        .hub-btn-primary:hover { background: #0f172a; }
+        .hub-btn-secondary { padding: 0.45rem 1rem; background: none; border: 1px solid #e2e8f0; color: #475569; border-radius: 7px; font-family: inherit; font-size: 0.875rem; font-weight: 600; cursor: pointer; }
+        .hub-btn-secondary:hover { background: #f8fafc; }
+        .hub-content-tabs { display: flex; border-bottom: 1px solid #e2e8f0; margin-bottom: 1rem; }
+        .hub-content-tab { padding: 0.5rem 1rem; font-size: 0.85rem; font-weight: 600; border: none; background: none; color: #64748b; cursor: pointer; border-bottom: 2px solid transparent; }
+        .hub-content-tab.active { color: #1e293b; border-bottom-color: #1e293b; }
+        .hub-content-text { white-space: pre-wrap; font-size: 0.875rem; line-height: 1.7; color: #334155; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1rem; min-height: 120px; }
+        .hub-copy-btn { margin-top: 0.75rem; padding: 0.35rem 0.875rem; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; font-family: inherit; font-size: 0.8rem; font-weight: 600; color: #475569; cursor: pointer; }
+        .hub-copy-btn:hover { background: #e2e8f0; }
+        .hub-copy-btn.copied { background: #f0fdf4; border-color: #86efac; color: #16a34a; }
+
+        .hub-empty { text-align: center; padding: 4rem 2rem; color: #94a3b8; }
+        .hub-empty-icon { font-size: 2.5rem; margin-bottom: 0.75rem; }
+        .hub-loading { text-align: center; padding: 3rem; color: #94a3b8; }
+
+        @media (max-width: 700px) {
+            .pr-hero-row { flex-direction: column; align-items: flex-start; }
+            .pr-hub-filters, .pr-tools-filters { margin-left: 0; }
+            .hub-metrics-grid { grid-template-columns: 1fr 1fr; }
+            .hub-form-grid { grid-template-columns: 1fr; }
+        }
     </style>
 </head>
 <body>
 
-    <!-- Access denied overlay -->
-    <div class="pr-gate" id="prGate">
-        <div class="pr-gate-icon">🔒</div>
-        <div class="pr-gate-title">Access Restricted</div>
-        <div class="pr-gate-desc">This page is only available to admins and owners.</div>
-        <a class="pr-gate-btn" href="https://www.yanzhiwang.com">← Back to Homepage</a>
-    </div>
+<div class="pr-gate" id="prGate">
+    <div class="pr-gate-icon">🔒</div>
+    <div class="pr-gate-title">Access Restricted</div>
+    <div class="pr-gate-desc">This page is only available to admins and owners.</div>
+    <a class="pr-gate-btn" href="https://www.yanzhiwang.com">← Back to Homepage</a>
+</div>
 
-    <header class="pr-header">
-        <div class="pr-header-inner">
-            <div class="pr-header-left">
-                <a href="https://www.yanzhiwang.com" class="pr-back">← Homepage</a>
-                <span class="pr-header-sep">|</span>
-                <span class="pr-header-title">PR Tool</span>
-            </div>
-            <div class="account-switcher">
-                <button class="account-btn" id="accountBtn">
-                    <span class="account-avatar" id="accountAvatar"></span>
-                    <span id="accountName">Yanzhiwang</span>
-                    <span class="account-chevron">▼</span>
+<!-- Header -->
+<header class="pr-header">
+    <div class="pr-header-inner">
+        <div class="pr-header-left">
+            <a href="https://www.yanzhiwang.com" class="pr-back">← Homepage</a>
+            <span class="pr-header-sep">|</span>
+            <span class="pr-header-title">PR Tool</span>
+        </div>
+        <div class="account-switcher">
+            <button class="account-btn" id="accountBtn">
+                <span class="account-avatar" id="accountAvatar"></span>
+                <span id="accountName">Yanzhiwang</span>
+                <span class="account-chevron">▼</span>
+            </button>
+            <div class="account-dropdown" id="accountDropdown">
+                <div class="account-dropdown-label">Switch Account</div>
+                <button class="account-option active" data-account="yanzhiwang">
+                    <span class="account-avatar" style="background:#1d4ed8;">Y</span>
+                    <span class="account-option-name">Yanzhiwang</span>
+                    <span class="account-option-check" id="check-yanzhiwang">✓</span>
                 </button>
-                <div class="account-dropdown" id="accountDropdown">
-                    <div class="account-dropdown-label">Switch Account</div>
-                    <button class="account-option active" data-account="yanzhiwang">
-                        <span class="account-avatar" style="background:#1d4ed8;">Y</span>
-                        <span class="account-option-name">Yanzhiwang</span>
-                        <span class="account-option-check" id="check-yanzhiwang">✓</span>
-                    </button>
-                    <button class="account-option" data-account="embodyx">
-                        <span class="account-avatar" style="background:#7c3aed;">E</span>
-                        <span class="account-option-name">EmbodyX</span>
-                        <span class="account-option-check" id="check-embodyx" style="display:none">✓</span>
-                    </button>
-                </div>
-            </div>
-        </div>
-    </header>
-
-    <div class="pr-hero">
-        <div class="pr-hero-eyebrow" id="heroEyebrow"></div>
-        <div class="pr-hero-row">
-            <h1>PR &amp; Content Operations</h1>
-            <div class="pr-filters">
-                <button class="pr-filter-btn active" data-filter="all">All</button>
-                <button class="pr-filter-btn" data-filter="x">X</button>
-                <button class="pr-filter-btn" data-filter="rednotes">Rednotes</button>
+                <button class="account-option" data-account="embodyx">
+                    <span class="account-avatar" style="background:#7c3aed;">E</span>
+                    <span class="account-option-name">EmbodyX</span>
+                    <span class="account-option-check" id="check-embodyx" style="display:none">✓</span>
+                </button>
             </div>
         </div>
     </div>
+</header>
 
+<!-- Hero -->
+<div class="pr-hero">
+    <div class="pr-hero-eyebrow" id="heroEyebrow"></div>
+    <div class="pr-hero-row">
+        <h1>PR &amp; Content Operations</h1>
+
+        <!-- View toggle -->
+        <div class="pr-view-toggle">
+            <button class="pr-view-btn active" data-view="hub">📊 PR Hub</button>
+            <button class="pr-view-btn" data-view="tools">🛠 Tools</button>
+        </div>
+
+        <!-- Hub filters (shown when hub active) -->
+        <div class="pr-hub-filters" id="hubFilters">
+            <select class="pr-select" id="filterType">
+                <option value="">All Types</option>
+                <option value="paper">📄 Paper</option>
+                <option value="finding">🔬 Finding</option>
+                <option value="product">📦 Product</option>
+                <option value="project">🚀 Project</option>
+                <option value="announcement">📢 Announcement</option>
+            </select>
+            <select class="pr-select" id="filterStatus">
+                <option value="">All Status</option>
+                <option value="none">Not Started</option>
+                <option value="partial">In Progress</option>
+                <option value="done">All Done</option>
+            </select>
+            <select class="pr-select" id="filterPlatform">
+                <option value="">All Platforms</option>
+                <option value="linkedin">LinkedIn</option>
+                <option value="x">X</option>
+                <option value="rednote">Rednote</option>
+                <option value="wechat">WeChat</option>
+            </select>
+            <button class="pr-add-btn" id="addSourceBtn">＋ Add Source</button>
+        </div>
+
+        <!-- Tools filters (shown when tools active) -->
+        <div class="pr-tools-filters" id="toolsFilters" style="display:none">
+            <button class="pr-filter-btn active" data-filter="all">All</button>
+            <button class="pr-filter-btn" data-filter="x">X</button>
+            <button class="pr-filter-btn" data-filter="rednotes">Rednotes</button>
+        </div>
+    </div>
+</div>
+
+<!-- PR Hub view -->
+<div class="hub-view" id="hubView">
+    <div id="statsBar" class="hub-stats"></div>
+    <div id="sourceList"><div class="hub-loading">Loading…</div></div>
+</div>
+
+<!-- Tools view -->
+<div class="tools-view" id="toolsView" style="display:none">
     <div class="pr-grid">
         <a href="/dam.html" target="_blank" rel="noopener noreferrer" class="pr-card">
             <div class="pr-card-icon icon--blue">🗂️</div>
             <div class="pr-card-name">DAM · Asset Library</div>
             <div class="pr-card-desc">Upload, tag and search images, videos, copy and brand assets. Keep all campaign materials organized in one searchable library.</div>
+        </a>
+        <a href="/matrix-publishing.html" target="_blank" rel="noopener noreferrer" class="pr-card">
+            <div class="pr-card-icon icon--purple">🔄</div>
+            <div class="pr-card-name">Matrix Publishing</div>
+            <div class="pr-card-desc">Paste one article and let AI reformat it for each platform — adjusting tone, length, hashtags and media requirements automatically.</div>
         </a>
         <a href="#" class="pr-card">
             <span class="pr-card-badge">Coming Soon</span>
@@ -311,16 +322,6 @@
             <div class="pr-card-icon icon--green">⏰</div>
             <div class="pr-card-name">Publish Time Predictor</div>
             <div class="pr-card-desc">AI-recommended optimal posting windows per platform, based on your audience engagement patterns and historical data.</div>
-        </a>
-        <a href="/pr-hub.html" target="_blank" rel="noopener noreferrer" class="pr-card">
-            <div class="pr-card-icon icon--indigo">📊</div>
-            <div class="pr-card-name">PR Hub</div>
-            <div class="pr-card-desc">Unified dashboard for all PR sources — papers, products, projects and announcements. Track platform progress, record engagement metrics and save generated content.</div>
-        </a>
-        <a href="/matrix-publishing.html" target="_blank" rel="noopener noreferrer" class="pr-card">
-            <div class="pr-card-icon icon--purple">🔄</div>
-            <div class="pr-card-name">Matrix Publishing</div>
-            <div class="pr-card-desc">Paste one article and let AI reformat it for each platform — adjusting tone, length, hashtags and media requirements automatically.</div>
         </a>
         <a href="#" class="pr-card">
             <span class="pr-card-badge">Coming Soon</span>
@@ -347,76 +348,347 @@
             <div class="pr-card-desc">Auto-generate visual reports of views, likes, shares and comments across all platforms. Export as PDF for stakeholder reviews.</div>
         </a>
     </div>
+</div>
 
-    <script>
-        const API = 'https://conference-tracker-production.up.railway.app';
+<!-- Source form modal -->
+<div class="hub-modal-overlay" id="sourceModal">
+    <div class="hub-modal">
+        <div class="hub-modal-header">
+            <div class="hub-modal-title" id="sourceModalTitle">Add Source</div>
+            <button class="hub-modal-close" id="sourceModalClose">✕</button>
+        </div>
+        <div class="hub-modal-body">
+            <div class="hub-form-grid">
+                <div class="hub-form-field hub-form-full"><label>Title *</label><input id="f-title" placeholder="e.g. HIERAMP: Coarse-to-Fine Autoregressive Amplification" /></div>
+                <div class="hub-form-field"><label>Type</label>
+                    <select id="f-type">
+                        <option value="paper">📄 Paper</option>
+                        <option value="finding">🔬 Research Finding</option>
+                        <option value="product">📦 Product</option>
+                        <option value="project">🚀 Project</option>
+                        <option value="announcement">📢 Announcement</option>
+                    </select>
+                </div>
+                <div class="hub-form-field"><label>Priority</label>
+                    <select id="f-priority">
+                        <option value="high">🔴 High</option>
+                        <option value="medium" selected>🟡 Medium</option>
+                        <option value="low">⚪ Low</option>
+                    </select>
+                </div>
+                <div class="hub-form-field hub-form-full"><label>Description</label><textarea id="f-description" placeholder="One-line summary"></textarea></div>
+                <div class="hub-form-field hub-form-full"><label>Link</label><input id="f-link" placeholder="https://…" /></div>
+                <div class="hub-form-field hub-form-full"><label>Notes</label><input id="f-notes" placeholder="Internal notes" /></div>
+            </div>
+            <div class="hub-form-actions">
+                <button class="hub-btn-primary" id="sourceModalSave">Save</button>
+                <button class="hub-btn-secondary" id="sourceModalCancel">Cancel</button>
+                <button class="hub-btn-secondary" id="sourceModalDelete" style="margin-left:auto;color:#ef4444;border-color:#fca5a5;display:none">Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
 
-        async function checkAccess() {
-            const token = localStorage.getItem('ct_token');
-            if (!token) { showGate(); return; }
-            try {
-                const res = await fetch(API + '/api/auth/me', {
-                    headers: { Authorization: 'Bearer ' + token }
-                });
-                if (!res.ok) { showGate(); return; }
-                const user = await res.json();
-                if (user.role !== 'owner' && user.role !== 'admin') { showGate(); }
-            } catch { showGate(); }
+<!-- Content viewer modal -->
+<div class="hub-modal-overlay" id="contentModal">
+    <div class="hub-modal">
+        <div class="hub-modal-header">
+            <div class="hub-modal-title" id="contentModalTitle">Saved Content</div>
+            <button class="hub-modal-close" id="contentModalClose">✕</button>
+        </div>
+        <div class="hub-modal-body">
+            <div class="hub-content-tabs">
+                <button class="hub-content-tab active" data-tab="wechat">公众号</button>
+                <button class="hub-content-tab" data-tab="rednote">小红书</button>
+                <button class="hub-content-tab" data-tab="x">X</button>
+                <button class="hub-content-tab" data-tab="linkedin">LinkedIn</button>
+            </div>
+            <div class="hub-content-text" id="contentText"></div>
+            <button class="hub-copy-btn" id="contentCopyBtn">⎘ Copy</button>
+        </div>
+    </div>
+</div>
+
+<script>
+const API = 'https://conference-tracker-production.up.railway.app';
+
+const PLATFORMS = [
+    { key: 'linkedin', label: 'LinkedIn',
+      svgHtml: `<svg width="16" height="16" viewBox="0 0 24 24" fill="#0A66C2"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>`,
+      metrics: [{ key:'views', label:'Views' }, { key:'likes', label:'Likes' }, { key:'comments', label:'Comments' }, { key:'reposts', label:'Reposts' }] },
+    { key: 'x', label: 'X (Twitter)',
+      svgHtml: `<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>`,
+      metrics: [{ key:'views', label:'Views' }, { key:'likes', label:'Likes' }, { key:'reposts', label:'Reposts' }] },
+    { key: 'rednote', label: 'Rednote (小红书)',
+      svgHtml: `<svg width="16" height="16" viewBox="0 0 100 100"><rect width="100" height="100" rx="18" fill="#FF2442"/><rect x="28" y="22" width="44" height="56" rx="6" fill="white" opacity=".95"/><rect x="36" y="38" width="28" height="5" rx="2.5" fill="#FF2442"/><rect x="36" y="48" width="28" height="5" rx="2.5" fill="#FF2442"/><rect x="36" y="58" width="20" height="5" rx="2.5" fill="#FF2442"/><rect x="40" y="22" width="20" height="8" rx="4" fill="#FF2442"/></svg>`,
+      metrics: [{ key:'views', label:'Views' }, { key:'likes', label:'Likes' }, { key:'saves', label:'Saves' }, { key:'comments', label:'Comments' }] },
+    { key: 'wechat', label: 'WeChat (公众号)',
+      svgHtml: `<svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M8.691 2.188C3.891 2.188 0 5.476 0 9.53c0 2.212 1.17 4.203 3.002 5.55a.59.59 0 0 1 .213.665l-.39 1.48c-.019.07-.048.141-.048.213 0 .163.13.295.295.295a.326.326 0 0 0 .167-.054l1.903-1.114a.864.864 0 0 1 .717-.098 10.16 10.16 0 0 0 2.837.403c.276 0 .543-.027.811-.05-.857-2.578.157-4.972 1.932-6.446 1.703-1.415 3.882-1.98 5.853-1.838-.576-3.583-4.196-6.348-8.602-6.348zM5.785 5.991c.642 0 1.162.529 1.162 1.18a1.17 1.17 0 0 1-1.162 1.178A1.17 1.17 0 0 1 4.623 7.17c0-.651.52-1.18 1.162-1.18zm5.813 0c.642 0 1.162.529 1.162 1.18a1.17 1.17 0 0 1-1.162 1.178 1.17 1.17 0 0 1-1.162-1.178c0-.651.52-1.18 1.162-1.18zm5.34 2.867c-1.797-.052-3.746.512-5.28 1.786-1.72 1.428-2.687 3.72-1.78 6.22.942 2.453 3.666 4.229 6.884 4.229.826 0 1.622-.12 2.361-.336a.722.722 0 0 1 .598.082l1.584.926a.272.272 0 0 0 .14.047c.134 0 .24-.111.24-.247 0-.06-.023-.12-.038-.177l-.327-1.233a.582.582 0 0 1-.023-.156.49.49 0 0 1 .201-.398C23.024 18.48 24 16.82 24 14.98c0-3.21-2.931-5.837-7.064-6.122h.002zm-3.01 3.98c.535 0 .969.44.969.982a.976.976 0 0 1-.969.983.976.976 0 0 1-.969-.983c0-.542.434-.982.97-.982zm4.906 0c.535 0 .969.44.969.982a.976.976 0 0 1-.969.983.976.976 0 0 1-.969-.983c0-.542.434-.982.97-.982z" fill="#07C160"/></svg>`,
+      metrics: [{ key:'reads', label:'Reads' }, { key:'likes', label:'Likes' }] },
+];
+
+const TYPE_ICONS = { paper:'📄', finding:'🔬', product:'📦', project:'🚀', announcement:'📢' };
+
+let allSources = [], token = null, editingSourceId = null, contentViewSource = null, contentViewTab = 'wechat', openMetricsKey = null;
+let currentView = 'hub';
+
+// ── Account switcher ──────────────────────────────────────────────────────────
+const ACCOUNTS = { yanzhiwang:{name:'Yanzhiwang',color:'#1d4ed8',initial:'Y'}, embodyx:{name:'EmbodyX',color:'#7c3aed',initial:'E'} };
+let currentAccount = localStorage.getItem('pr_account') || 'yanzhiwang';
+
+function applyAccount(key) {
+    const acc = ACCOUNTS[key];
+    currentAccount = key;
+    localStorage.setItem('pr_account', key);
+    document.getElementById('accountName').textContent = acc.name;
+    const av = document.getElementById('accountAvatar');
+    av.textContent = acc.initial; av.style.background = acc.color;
+    const ey = document.getElementById('heroEyebrow');
+    ey.textContent = acc.name; ey.style.color = acc.color;
+    document.querySelectorAll('.account-option').forEach(btn => {
+        const active = btn.dataset.account === key;
+        btn.classList.toggle('active', active);
+        document.getElementById('check-' + btn.dataset.account).style.display = active ? '' : 'none';
+    });
+}
+document.getElementById('accountBtn').addEventListener('click', e => { e.stopPropagation(); document.getElementById('accountDropdown').classList.toggle('open'); });
+document.addEventListener('click', () => document.getElementById('accountDropdown').classList.remove('open'));
+document.querySelectorAll('.account-option').forEach(btn => btn.addEventListener('click', () => { applyAccount(btn.dataset.account); document.getElementById('accountDropdown').classList.remove('open'); }));
+applyAccount(currentAccount);
+
+// ── View toggle ───────────────────────────────────────────────────────────────
+document.querySelectorAll('.pr-view-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+        currentView = btn.dataset.view;
+        document.querySelectorAll('.pr-view-btn').forEach(b => b.classList.toggle('active', b.dataset.view === currentView));
+        document.getElementById('hubView').style.display = currentView === 'hub' ? '' : 'none';
+        document.getElementById('toolsView').style.display = currentView === 'tools' ? '' : 'none';
+        document.getElementById('hubFilters').style.display = currentView === 'hub' ? '' : 'none';
+        document.getElementById('toolsFilters').style.display = currentView === 'tools' ? '' : 'none';
+    });
+});
+
+// Tools filter pills
+document.querySelectorAll('.pr-filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+        document.querySelectorAll('.pr-filter-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+    });
+});
+
+// ── Auth ──────────────────────────────────────────────────────────────────────
+async function init() {
+    token = localStorage.getItem('ct_token');
+    if (!token) { showGate(); return; }
+    try {
+        const res = await fetch(API + '/api/auth/me', { headers: { Authorization: 'Bearer ' + token } });
+        if (!res.ok) { showGate(); return; }
+        const user = await res.json();
+        if (user.role !== 'owner' && user.role !== 'admin') { showGate(); return; }
+    } catch { showGate(); return; }
+    loadData();
+}
+function showGate() { document.getElementById('prGate').classList.add('visible'); }
+
+// ── Data ──────────────────────────────────────────────────────────────────────
+async function loadData() {
+    try {
+        const [pr, ps] = await Promise.all([
+            fetch(API + '/api/papers',     { headers: { Authorization: 'Bearer ' + token } }),
+            fetch(API + '/api/pr-sources', { headers: { Authorization: 'Bearer ' + token } }),
+        ]);
+        const papers    = pr.ok ? await pr.json() : [];
+        const prSources = ps.ok ? await ps.json() : [];
+
+        const seen = new Map();
+        for (const p of papers) {
+            const key = (p.title || '').toLowerCase().replace(/[^a-z0-9]+/g,' ').trim();
+            if (!seen.has(key)) seen.set(key, { _id:p.id, _sourceKind:'paper', type:'paper', title:p.title||'', description:[p.conferenceName, p.track&&p.track!=='Main'?p.track:null].filter(Boolean).join(' · '), link:p.link||'', priority:'medium', pr:p.pr||{}, savedContent:p.savedContent||{}, notes:p.notes||'', _status:p.status||'', _conf:p.conferenceName||'', _date:p.date||'', createdAt:p.createdAt||'' });
         }
+        const customItems = prSources.map(s => ({ ...s, _id:s.id, _sourceKind:'custom' }));
+        allSources = [...customItems, ...[...seen.values()]];
+        render();
+    } catch { document.getElementById('sourceList').innerHTML = '<div class="hub-empty"><div class="hub-empty-icon">⚠️</div>Failed to load data.</div>'; }
+}
 
-        function showGate() {
-            document.getElementById('prGate').classList.add('visible');
-        }
+// ── PR helpers ────────────────────────────────────────────────────────────────
+function prDate(s, p) { const v = s.pr?.[p]; if (!v) return null; return typeof v==='string'?v:(v.date||null); }
+function prObj(s, p) { const v = s.pr?.[p]; if (!v) return {}; return typeof v==='object'?v:{date:v}; }
+function prStatus(s) { const done = PLATFORMS.filter(p=>!!prDate(s,p.key)).length; return done===0?'none':done===PLATFORMS.length?'done':'partial'; }
 
-        checkAccess();
+// ── Render ────────────────────────────────────────────────────────────────────
+function applyFilters() {
+    const type = document.getElementById('filterType').value;
+    const status = document.getElementById('filterStatus').value;
+    const platform = document.getElementById('filterPlatform').value;
+    return allSources.filter(s => (!type||s.type===type) && (!status||prStatus(s)===status) && (!platform||!!prDate(s,platform)));
+}
 
-        const ACCOUNTS = {
-            yanzhiwang: { name: 'Yanzhiwang', color: '#1d4ed8', initial: 'Y' },
-            embodyx:    { name: 'EmbodyX',    color: '#7c3aed', initial: 'E' },
-        };
+function render() {
+    const filtered = applyFilters();
+    const total = allSources.length, done = allSources.filter(s=>prStatus(s)==='done').length, partial = allSources.filter(s=>prStatus(s)==='partial').length, none = allSources.filter(s=>prStatus(s)==='none').length;
+    document.getElementById('statsBar').innerHTML = `
+        <div class="hub-stat"><div class="hub-stat-num">${total}</div><div class="hub-stat-label">Total Sources</div></div>
+        <div class="hub-stat hub-stat--done"><div class="hub-stat-num">${done}</div><div class="hub-stat-label">All Platforms Done</div></div>
+        <div class="hub-stat hub-stat--progress"><div class="hub-stat-num">${partial}</div><div class="hub-stat-label">In Progress</div></div>
+        <div class="hub-stat hub-stat--new"><div class="hub-stat-num">${none}</div><div class="hub-stat-label">Not Started</div></div>`;
 
-        let current = localStorage.getItem('pr_account') || 'yanzhiwang';
+    const list = document.getElementById('sourceList');
+    if (filtered.length === 0) { list.innerHTML = '<div class="hub-empty"><div class="hub-empty-icon">🔍</div>No sources match the filters.</div>'; return; }
 
-        function applyAccount(key) {
-            const acc = ACCOUNTS[key];
-            current = key;
-            localStorage.setItem('pr_account', key);
-            document.getElementById('accountName').textContent = acc.name;
-            const avatar = document.getElementById('accountAvatar');
-            avatar.textContent = acc.initial;
-            avatar.style.background = acc.color;
-            const eyebrow = document.getElementById('heroEyebrow');
-            eyebrow.textContent = acc.name;
-            eyebrow.style.color = acc.color;
-            document.querySelectorAll('.account-option').forEach(btn => {
-                const isActive = btn.dataset.account === key;
-                btn.classList.toggle('active', isActive);
-                document.getElementById('check-' + btn.dataset.account).style.display = isActive ? '' : 'none';
-            });
-        }
+    const groups = [
+        { key:'none',    label:'⭕ Not Started',        items: filtered.filter(s=>prStatus(s)==='none') },
+        { key:'partial', label:'🔄 In Progress',         items: filtered.filter(s=>prStatus(s)==='partial') },
+        { key:'done',    label:'✅ All Platforms Done',  items: filtered.filter(s=>prStatus(s)==='done') },
+    ].filter(g=>g.items.length>0);
 
-        document.getElementById('accountBtn').addEventListener('click', e => {
-            e.stopPropagation();
-            document.getElementById('accountDropdown').classList.toggle('open');
-        });
-        document.addEventListener('click', () => {
-            document.getElementById('accountDropdown').classList.remove('open');
-        });
-        document.querySelectorAll('.account-option').forEach(btn => {
-            btn.addEventListener('click', () => {
-                applyAccount(btn.dataset.account);
-                document.getElementById('accountDropdown').classList.remove('open');
-            });
-        });
+    list.innerHTML = groups.map(g=>`<div class="hub-section-title">${g.label} (${g.items.length})</div>${g.items.map(s=>renderCard(s)).join('')}`).join('');
 
-        document.querySelectorAll('.pr-filter-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                document.querySelectorAll('.pr-filter-btn').forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-            });
-        });
+    list.querySelectorAll('[data-toggle-platform]').forEach(btn=>btn.addEventListener('click',()=>{
+        const sid=btn.dataset.sid, platform=btn.dataset.togglePlatform, src=allSources.find(s=>s._id===sid);
+        if(!src) return;
+        const key=sid+'-'+platform;
+        if(openMetricsKey===key){closeMetricsPanel();return;}
+        if(openMetricsKey) closeMetricsPanel();
+        openMetricsKey=key; openMetricsPanel(src,platform);
+    }));
+    list.querySelectorAll('[data-show-content]').forEach(btn=>btn.addEventListener('click',()=>{const s=allSources.find(x=>x._id===btn.dataset.showContent);if(s)openContentModal(s);}));
+    list.querySelectorAll('[data-edit-source]').forEach(btn=>btn.addEventListener('click',()=>{const s=allSources.find(x=>x._id===btn.dataset.editSource);if(s&&s._sourceKind==='custom')openSourceModal(s);}));
+}
 
-        applyAccount(current);
-    </script>
+function renderCard(s) {
+    const titleHtml = s.link ? `<a href="${s.link}" target="_blank" rel="noopener noreferrer">${esc(s.title)}</a>` : esc(s.title);
+    const hasSaved = Object.values(s.savedContent||{}).some(v=>v&&v.trim());
+    const genUrl = `/matrix-publishing.html?title=${encodeURIComponent(s.title)}&link=${encodeURIComponent(s.link||'')}&sourceId=${encodeURIComponent(s._id)}&sourceKind=${encodeURIComponent(s._sourceKind)}`;
+    const badges = PLATFORMS.map(p=>{ const date=prDate(s,p.key); return `<button class="hub-pr-badge${date?' hub-pr-badge--done':''}" data-toggle-platform="${p.key}" data-sid="${s._id}" title="${p.label}: ${date?'Done '+date:'click to mark'}">${p.svgHtml}${date?'<span class="hub-pr-check">✓</span>':''}</button>`; }).join('');
+    const editBtn = s._sourceKind==='custom' ? `<button class="hub-menu-btn" data-edit-source="${s._id}" title="Edit">⋯</button>` : '';
+    const metaTags = [s._conf&&`<span class="hub-tag hub-tag--meta">${esc(s._conf)}</span>`, s._date&&`<span class="hub-tag hub-tag--meta">${s._date}</span>`, s._status&&`<span class="hub-tag hub-tag--${s._status==='rejected'?'status-r':'status'}">${s._status}</span>`].filter(Boolean).join('');
+    return `<div class="hub-card" id="card-${s._id}">
+        <div class="hub-card-main">
+            <div class="hub-card-type-icon">${TYPE_ICONS[s.type]||'📌'}</div>
+            <div class="hub-card-body">
+                <div class="hub-card-title">${titleHtml}</div>
+                <div class="hub-card-meta"><span class="hub-priority-dot hub-priority-dot--${s.priority||'medium'}"></span><span class="hub-tag hub-tag--${s.type}">${s.type}</span>${metaTags}</div>
+            </div>
+            <div class="hub-card-actions">
+                <a class="hub-gen-btn" href="${genUrl}" target="_blank" rel="noopener noreferrer">✨ Generate</a>
+                <button class="hub-content-btn${hasSaved?' hub-content-btn--has':''}" data-show-content="${s._id}">${hasSaved?'📋 Content':'📋 No content'}</button>
+                ${editBtn}
+            </div>
+        </div>
+        <div class="hub-card-footer"><div class="hub-pr-badges">${badges}</div></div>
+        <div class="hub-metrics-panel" id="metrics-panel-${s._id}"></div>
+    </div>`;
+}
+
+// ── Metrics panel ─────────────────────────────────────────────────────────────
+function openMetricsPanel(src, platform) {
+    const panelEl = document.getElementById(`metrics-panel-${src._id}`); if(!panelEl) return;
+    const p = PLATFORMS.find(x=>x.key===platform); if(!p) return;
+    const ex = prObj(src, platform);
+    const fields = p.metrics.map(m=>`<div class="hub-metrics-field"><label>${m.label}</label><input type="number" id="mf-${src._id}-${platform}-${m.key}" value="${ex[m.key]??''}" placeholder="—"/></div>`).join('');
+    panelEl.innerHTML = `
+        <div class="hub-metrics-header">${p.svgHtml} <span>${p.label}</span>${ex.date?`<span style="color:#64748b;font-weight:400">· Published ${ex.date}</span>`:''}</div>
+        <div class="hub-metrics-grid">
+            <div class="hub-metrics-field"><label>Publish Date</label><input type="date" id="mf-${src._id}-${platform}-date" value="${ex.date||new Date().toISOString().slice(0,10)}"/></div>
+            <div class="hub-metrics-field"><label>Post URL</label><input type="url" id="mf-${src._id}-${platform}-postUrl" value="${ex.postUrl||''}" placeholder="https://…"/></div>
+            ${fields}
+        </div>
+        <div><button class="hub-metrics-save" id="mf-save-${src._id}-${platform}">Save</button>${ex.date?`<button class="hub-metrics-unmark" id="mf-unmark-${src._id}-${platform}">Unmark</button>`:''}</div>`;
+    panelEl.classList.add('open');
+    document.getElementById(`mf-save-${src._id}-${platform}`)?.addEventListener('click',()=>saveMetrics(src,platform,p));
+    document.getElementById(`mf-unmark-${src._id}-${platform}`)?.addEventListener('click',()=>unmark(src,platform));
+}
+
+function closeMetricsPanel() {
+    if(!openMetricsKey) return;
+    const parts = openMetricsKey.split('-'); let sid = '';
+    // find source whose id starts with the key prefix
+    const src = allSources.find(s => openMetricsKey.startsWith(s._id+'-'));
+    if(src) { const el=document.getElementById(`metrics-panel-${src._id}`); if(el){el.classList.remove('open');el.innerHTML='';} }
+    openMetricsKey = null;
+}
+
+async function saveMetrics(src, platform, platformDef) {
+    const date = document.getElementById(`mf-${src._id}-${platform}-date`)?.value||null;
+    const postUrl = document.getElementById(`mf-${src._id}-${platform}-postUrl`)?.value||null;
+    const metrics = {};
+    platformDef.metrics.forEach(m=>{ const v=document.getElementById(`mf-${src._id}-${platform}-${m.key}`)?.value; metrics[m.key]=v!==''&&v!=null?Number(v):null; });
+    await persistPr(src,{ ...(src.pr||{}), [platform]:{date,postUrl:postUrl||null,...metrics} });
+}
+
+async function unmark(src, platform) {
+    const ex = prObj(src, platform);
+    await persistPr(src,{ ...(src.pr||{}), [platform]:{...ex,date:null} });
+}
+
+async function persistPr(src, newPr) {
+    const url = src._sourceKind==='paper' ? `${API}/api/papers/${src._id}` : `${API}/api/pr-sources/${src._id}`;
+    try {
+        const res = await fetch(url,{ method:'PUT', headers:{'Content-Type':'application/json',Authorization:'Bearer '+token}, body:JSON.stringify({...src,pr:newPr}) });
+        if(!res.ok) throw new Error();
+        src.pr = newPr; openMetricsKey=null; render();
+    } catch { alert('Failed to save. Please try again.'); }
+}
+
+// ── Content modal ─────────────────────────────────────────────────────────────
+function openContentModal(src) {
+    contentViewSource=src; contentViewTab='wechat';
+    document.getElementById('contentModalTitle').textContent = src.title.slice(0,60)+(src.title.length>60?'…':'');
+    document.querySelectorAll('.hub-content-tab').forEach(t=>t.classList.toggle('active',t.dataset.tab===contentViewTab));
+    updateContentView();
+    document.getElementById('contentModal').classList.add('open');
+}
+function updateContentView() { document.getElementById('contentText').textContent = contentViewSource?.savedContent?.[contentViewTab]||'(No content saved for this platform)'; }
+document.querySelectorAll('.hub-content-tab').forEach(tab=>tab.addEventListener('click',()=>{ contentViewTab=tab.dataset.tab; document.querySelectorAll('.hub-content-tab').forEach(t=>t.classList.toggle('active',t.dataset.tab===contentViewTab)); updateContentView(); }));
+document.getElementById('contentModalClose').addEventListener('click',()=>document.getElementById('contentModal').classList.remove('open'));
+document.getElementById('contentCopyBtn').addEventListener('click',function(){ navigator.clipboard.writeText(document.getElementById('contentText').textContent).then(()=>{ this.textContent='✓ Copied'; this.classList.add('copied'); setTimeout(()=>{this.textContent='⎘ Copy';this.classList.remove('copied');},2000); }); });
+
+// ── Source modal ──────────────────────────────────────────────────────────────
+document.getElementById('addSourceBtn').addEventListener('click',()=>openSourceModal(null));
+document.getElementById('sourceModalCancel').addEventListener('click',closeSourceModal);
+document.getElementById('sourceModalClose').addEventListener('click',closeSourceModal);
+
+function openSourceModal(s) {
+    editingSourceId=s?s._id:null;
+    document.getElementById('sourceModalTitle').textContent=s?'Edit Source':'Add Source';
+    document.getElementById('f-title').value=s?.title||'';
+    document.getElementById('f-type').value=s?.type||'announcement';
+    document.getElementById('f-priority').value=s?.priority||'medium';
+    document.getElementById('f-description').value=s?.description||'';
+    document.getElementById('f-link').value=s?.link||'';
+    document.getElementById('f-notes').value=s?.notes||'';
+    document.getElementById('sourceModalDelete').style.display=s?'inline-block':'none';
+    document.getElementById('sourceModal').classList.add('open');
+}
+function closeSourceModal(){ document.getElementById('sourceModal').classList.remove('open'); editingSourceId=null; }
+
+document.getElementById('sourceModalSave').addEventListener('click',async()=>{
+    const title=document.getElementById('f-title').value.trim();
+    if(!title){alert('Title is required.');return;}
+    const body={title,type:document.getElementById('f-type').value,priority:document.getElementById('f-priority').value,description:document.getElementById('f-description').value.trim(),link:document.getElementById('f-link').value.trim(),notes:document.getElementById('f-notes').value.trim()};
+    try {
+        const url=editingSourceId?`${API}/api/pr-sources/${editingSourceId}`:`${API}/api/pr-sources`;
+        const res=await fetch(url,{method:editingSourceId?'PUT':'POST',headers:{'Content-Type':'application/json',Authorization:'Bearer '+token},body:JSON.stringify(body)});
+        if(!res.ok)throw new Error();
+        closeSourceModal(); loadData();
+    } catch { alert('Failed to save source.'); }
+});
+
+document.getElementById('sourceModalDelete').addEventListener('click',async()=>{
+    if(!editingSourceId||!confirm('Delete this source?'))return;
+    try { await fetch(`${API}/api/pr-sources/${editingSourceId}`,{method:'DELETE',headers:{Authorization:'Bearer '+token}}); closeSourceModal(); loadData(); }
+    catch { alert('Failed to delete.'); }
+});
+
+document.getElementById('sourceModal').addEventListener('click',e=>{if(e.target===e.currentTarget)closeSourceModal();});
+document.getElementById('contentModal').addEventListener('click',e=>{if(e.target===e.currentTarget)document.getElementById('contentModal').classList.remove('open');});
+
+['filterType','filterStatus','filterPlatform'].forEach(id=>document.getElementById(id).addEventListener('change',render));
+
+function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+init();
+</script>
 </body>
 </html>
