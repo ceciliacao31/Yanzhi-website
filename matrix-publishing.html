@@ -83,6 +83,19 @@
         }
         .mp-textarea:focus { border-color: #94a3b8; background: #fff; }
         .mp-textarea::placeholder { color: #94a3b8; }
+        .mp-paper-select {
+            width: 100%;
+            padding: 0.6rem 0.75rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 0.875rem;
+            color: #1e293b;
+            background: #f8fafc;
+            outline: none;
+            cursor: pointer;
+        }
+        .mp-paper-select:focus { border-color: #94a3b8; background: #fff; }
         .mp-input-footer {
             display: flex;
             align-items: center;
@@ -319,6 +332,14 @@
 
     <div class="mp-main">
 
+        <!-- Paper selector -->
+        <div class="mp-input-section" id="paperSelectSection" style="display:none;">
+            <div class="mp-input-label">📄 Select Paper <span style="font-weight:400;color:#94a3b8;">(optional — auto-fills info below)</span></div>
+            <select class="mp-paper-select" id="paperSelect">
+                <option value="">— Choose a paper to pre-fill —</option>
+            </select>
+        </div>
+
         <!-- Input -->
         <div class="mp-input-section">
             <div class="mp-input-label">📝 Paste your PR article</div>
@@ -421,7 +442,65 @@
 
         function showGate() { document.getElementById('mpGate').classList.add('visible'); }
 
-        checkAccess();
+        checkAccess().then(() => loadPapers());
+
+        async function loadPapers() {
+            const token = localStorage.getItem('ct_token');
+            if (!token) return;
+            try {
+                const res = await fetch(API + '/api/papers', { headers: { Authorization: 'Bearer ' + token } });
+                if (!res.ok) return;
+                const papers = await res.json();
+
+                // Deduplicate by normalized title, sort newest first
+                const seen = new Set();
+                const unique = papers.filter(p => {
+                    const key = (p.title || '').toLowerCase().replace(/\s+/g, ' ').trim();
+                    if (seen.has(key)) return false;
+                    seen.add(key);
+                    return true;
+                }).sort((a, b) => (b.date || b.year + '').localeCompare(a.date || a.year + ''));
+
+                const select = document.getElementById('paperSelect');
+                unique.forEach(p => {
+                    const opt = document.createElement('option');
+                    opt.value = p.id;
+                    opt.textContent = (p.title || 'Untitled') + (p.conferenceName ? '  —  ' + p.conferenceName : '');
+                    opt.dataset.paper = JSON.stringify(p);
+                    select.appendChild(opt);
+                });
+
+                document.getElementById('paperSelectSection').style.display = 'block';
+
+                // Auto-select from URL param
+                const urlTitle = new URLSearchParams(window.location.search).get('title');
+                if (urlTitle) {
+                    const match = unique.find(p => p.title === urlTitle);
+                    if (match) {
+                        select.value = match.id;
+                        fillFromPaper(match);
+                    }
+                }
+            } catch { /* silently skip if API unreachable */ }
+        }
+
+        function fillFromPaper(paper) {
+            let text = 'Paper: ' + (paper.title || '');
+            if (paper.authors)       text += '\nAuthors: ' + paper.authors;
+            if (paper.conferenceName) text += '\nVenue: ' + paper.conferenceName;
+            if (paper.link)          text += '\nLink: ' + paper.link;
+            if (paper.date)          text += '\nDate: ' + paper.date;
+            text += '\n\n[Paste the paper abstract and key contributions here]';
+            const input = document.getElementById('articleInput');
+            input.value = text;
+            document.getElementById('charCount').textContent = text.length + ' characters';
+        }
+
+        document.getElementById('paperSelect').addEventListener('change', function () {
+            const opt = this.options[this.selectedIndex];
+            if (!opt || !opt.dataset.paper) return;
+            fillFromPaper(JSON.parse(opt.dataset.paper));
+        });
 
         // Char count
         const articleInput = document.getElementById('articleInput');
