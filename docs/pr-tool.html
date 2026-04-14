@@ -101,6 +101,20 @@
         .hub-cat-arrow { position: absolute; bottom: 1.25rem; right: 1.25rem; font-size: 1rem; color: #cbd5e1; transition: color 0.15s, transform 0.15s; }
         .hub-cat-card:hover .hub-cat-arrow { color: #94a3b8; transform: translateX(3px); }
 
+        /* Product card grid (inside Products detail) */
+        .hub-product-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.25rem; margin-top: 0.5rem; }
+        .hub-product-card { background: #fff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 1.5rem; text-decoration: none; color: inherit; display: flex; flex-direction: column; gap: 0.75rem; transition: box-shadow 0.2s, transform 0.15s, border-color 0.2s; position: relative; }
+        .hub-product-card:hover { box-shadow: 0 8px 24px rgba(0,0,0,0.09); transform: translateY(-2px); border-color: #cbd5e1; }
+        .hub-product-card-icon { font-size: 2rem; }
+        .hub-product-card-name { font-size: 1.05rem; font-weight: 700; color: #0f172a; }
+        .hub-product-card-desc { font-size: 0.8rem; color: #64748b; line-height: 1.5; }
+        .hub-product-card-stats { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+        .hub-product-card-stat { font-size: 0.75rem; color: #64748b; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 2px 8px; }
+        .hub-product-card-stat--active { color: #1d4ed8; background: #eff6ff; border-color: #bfdbfe; }
+        .hub-product-card-arrow { position: absolute; bottom: 1.25rem; right: 1.25rem; font-size: 1rem; color: #cbd5e1; transition: color 0.15s, transform 0.15s; }
+        .hub-product-card:hover .hub-product-card-arrow { color: #94a3b8; transform: translateX(3px); }
+        @media (max-width: 600px) { .hub-product-grid { grid-template-columns: 1fr; } }
+
         /* Color themes per category */
         .hub-cat-card--paper    { border-top: 3px solid #3b82f6; }
         .hub-cat-card--finding  { border-top: 3px solid #8b5cf6; }
@@ -713,6 +727,14 @@ function renderDetail() {
     document.getElementById('detailIcon').textContent  = cat.icon;
     document.getElementById('detailTitle').textContent = cat.name;
 
+    // Products get a card grid linking to campaign pages
+    if (currentHubType === 'product') {
+        const products = accountSources().filter(s => s.type === 'product');
+        document.getElementById('detailCount').textContent = `${products.length} products`;
+        document.getElementById('sourceList').innerHTML = `<div class="hub-product-grid">${products.map(renderProductCard).join('')}</div>`;
+        return;
+    }
+
     const status   = document.getElementById('filterStatus').value;
     const platform = document.getElementById('filterPlatform').value;
     const filtered = accountSources().filter(s =>
@@ -743,6 +765,36 @@ function renderDetail() {
     }));
     list.querySelectorAll('[data-show-content]').forEach(btn=>btn.addEventListener('click',()=>{const s=allSources.find(x=>x._id===btn.dataset.showContent);if(s)openContentModal(s);}));
     list.querySelectorAll('[data-edit-source]').forEach(btn=>btn.addEventListener('click',()=>{const s=allSources.find(x=>x._id===btn.dataset.editSource);if(s&&s._sourceKind==='custom')openSourceModal(s);}));
+}
+
+function renderProductCard(s) {
+    const posts = s.posts || [];
+    const schedule = s.schedule || null;
+    const postCount = posts.length;
+    const sorted = [...posts].sort((a,b) => b.date.localeCompare(a.date));
+    const lastPost = sorted[0];
+    const today = new Date().toISOString().slice(0,10);
+    let nextDate = null;
+    if (schedule?.startDate && schedule?.frequencyDays) {
+        const start = new Date(schedule.startDate + 'T00:00:00');
+        const freq = schedule.frequencyDays;
+        let d = new Date(start);
+        while (d.toISOString().slice(0,10) <= today) d.setDate(d.getDate() + freq);
+        nextDate = d.toISOString().slice(0,10);
+    }
+    const stats = [
+        postCount > 0 ? `${postCount} posts` : 'No posts yet',
+        lastPost ? `Last: ${lastPost.date}` : null,
+        schedule?.frequencyDays ? `Every ${schedule.frequencyDays}d` : null,
+        nextDate ? `Next: ${nextDate}` : null,
+    ].filter(Boolean);
+    return `<a href="/campaign.html?id=${encodeURIComponent(s._id)}" class="hub-product-card">
+        <div class="hub-product-card-icon">${TYPE_ICONS[s.type]||'📦'}</div>
+        <div class="hub-product-card-name">${esc(s.title)}</div>
+        ${s.description ? `<div class="hub-product-card-desc">${esc(s.description)}</div>` : ''}
+        <div class="hub-product-card-stats">${stats.map((st,i) => `<span class="hub-product-card-stat${i===0&&postCount>0?' hub-product-card-stat--active':''}">${st}</span>`).join('')}</div>
+        <span class="hub-product-card-arrow">→</span>
+    </a>`;
 }
 
 function renderCard(s) {
