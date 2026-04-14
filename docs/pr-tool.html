@@ -48,29 +48,75 @@
         .pr-view-btn + .pr-view-btn { border-left: 1px solid #e2e8f0; }
         .pr-view-btn.active { background: #1e293b; color: #fff; }
 
-        /* Hub filters */
-        .pr-hub-filters { display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; margin-left: auto; }
+        /* Detail filters (shown when drilled into a category) */
+        .pr-detail-filters { display: none; align-items: center; gap: 0.5rem; flex-wrap: wrap; margin-left: auto; }
+        .pr-detail-filters.visible { display: flex; }
+        .pr-back-crumb { display: inline-flex; align-items: center; gap: 0.35rem; padding: 0.35rem 0.75rem; border: 1px solid #e2e8f0; border-radius: 7px; background: #fff; font-family: inherit; font-size: 0.82rem; font-weight: 600; color: #475569; cursor: pointer; white-space: nowrap; }
+        .pr-back-crumb:hover { background: #f1f5f9; color: #1e293b; }
         .pr-select { padding: 0.35rem 0.65rem; border: 1px solid #e2e8f0; border-radius: 7px; font-family: inherit; font-size: 0.82rem; background: #fff; color: #1e293b; cursor: pointer; }
         .pr-add-btn { display: flex; align-items: center; gap: 0.35rem; padding: 0.35rem 0.875rem; background: #1e293b; color: #fff; border: none; border-radius: 7px; font-family: inherit; font-size: 0.82rem; font-weight: 600; cursor: pointer; white-space: nowrap; }
         .pr-add-btn:hover { background: #0f172a; }
 
         /* Tools filters */
-        .pr-tools-filters { display: flex; align-items: center; gap: 0.375rem; margin-left: auto; }
+        .pr-tools-filters { display: none; align-items: center; gap: 0.375rem; margin-left: auto; }
+        .pr-tools-filters.visible { display: flex; }
         .pr-filter-btn { padding: 0.3rem 0.875rem; border-radius: 20px; border: 1px solid #e2e8f0; background: #fff; font-family: inherit; font-size: 0.82rem; font-weight: 500; color: #64748b; cursor: pointer; transition: all 0.15s; }
         .pr-filter-btn:hover { border-color: #cbd5e1; color: #1e293b; }
         .pr-filter-btn.active { background: #1e293b; border-color: #1e293b; color: #fff; }
 
-        /* ── Hub view ── */
+        /* ── Hub overview: category cards ── */
         .hub-view { max-width: 1200px; margin: 0 auto; padding: 0 2rem 3rem; }
-
-        /* Stats */
-        .hub-stats { display: flex; gap: 1rem; margin-bottom: 1.25rem; flex-wrap: wrap; }
+        .hub-overview-stats { display: flex; gap: 1rem; margin-bottom: 1.75rem; flex-wrap: wrap; }
         .hub-stat { background: #fff; border: 1px solid #e2e8f0; border-radius: 10px; padding: 0.875rem 1.25rem; flex: 1; min-width: 120px; }
         .hub-stat-num { font-size: 1.75rem; font-weight: 700; line-height: 1; }
         .hub-stat-label { font-size: 0.72rem; color: #64748b; margin-top: 0.25rem; }
         .hub-stat--done .hub-stat-num { color: #16a34a; }
         .hub-stat--progress .hub-stat-num { color: #d97706; }
         .hub-stat--new .hub-stat-num { color: #64748b; }
+
+        /* Category cards grid */
+        .hub-cat-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1.25rem; }
+
+        .hub-cat-card { background: #fff; border: 1px solid #e2e8f0; border-radius: 14px; padding: 1.5rem; cursor: pointer; transition: box-shadow 0.2s, transform 0.15s, border-color 0.2s; display: flex; flex-direction: column; gap: 1rem; position: relative; overflow: hidden; }
+        .hub-cat-card:hover { box-shadow: 0 8px 24px rgba(0,0,0,0.09); transform: translateY(-2px); border-color: #cbd5e1; }
+        .hub-cat-card-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 0.5rem; }
+        .hub-cat-icon { width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; flex-shrink: 0; }
+        .hub-cat-count { font-size: 1.6rem; font-weight: 700; color: #0f172a; line-height: 1; }
+        .hub-cat-count-label { font-size: 0.7rem; color: #94a3b8; }
+        .hub-cat-name { font-size: 1.05rem; font-weight: 700; color: #0f172a; }
+        .hub-cat-desc { font-size: 0.8rem; color: #64748b; line-height: 1.5; }
+        .hub-cat-progress { display: flex; flex-direction: column; gap: 0.4rem; }
+        .hub-cat-bar-track { height: 6px; background: #f1f5f9; border-radius: 3px; overflow: hidden; }
+        .hub-cat-bar-fill { height: 100%; border-radius: 3px; background: #22c55e; transition: width 0.3s; }
+        .hub-cat-bar-fill--partial { background: #f59e0b; }
+        .hub-cat-stats-row { display: flex; gap: 0.75rem; font-size: 0.72rem; color: #64748b; }
+        .hub-cat-stats-row span { display: flex; align-items: center; gap: 0.25rem; }
+        .hub-cat-stats-row .dot { width: 6px; height: 6px; border-radius: 50%; }
+        .dot--green { background: #22c55e; }
+        .dot--amber { background: #f59e0b; }
+        .dot--gray  { background: #cbd5e1; }
+        .hub-cat-arrow { position: absolute; bottom: 1.25rem; right: 1.25rem; font-size: 1rem; color: #cbd5e1; transition: color 0.15s, transform 0.15s; }
+        .hub-cat-card:hover .hub-cat-arrow { color: #94a3b8; transform: translateX(3px); }
+
+        /* Color themes per category */
+        .hub-cat-card--paper    { border-top: 3px solid #3b82f6; }
+        .hub-cat-card--finding  { border-top: 3px solid #8b5cf6; }
+        .hub-cat-card--product  { border-top: 3px solid #0ea5e9; }
+        .hub-cat-card--project  { border-top: 3px solid #10b981; }
+        .hub-cat-card--announcement { border-top: 3px solid #f59e0b; }
+        .icon--blue   { background: #eff6ff; }
+        .icon--purple { background: #f5f3ff; }
+        .icon--sky    { background: #f0f9ff; }
+        .icon--green  { background: #ecfdf5; }
+        .icon--amber  { background: #fffbeb; }
+
+        /* ── Hub detail: source list ── */
+        .hub-detail { display: none; }
+        .hub-detail.visible { display: block; }
+        .hub-detail-header { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem; padding-bottom: 0.875rem; border-bottom: 1px solid #e2e8f0; }
+        .hub-detail-icon { font-size: 1.5rem; }
+        .hub-detail-title { font-size: 1.1rem; font-weight: 700; color: #0f172a; }
+        .hub-detail-count { font-size: 0.8rem; color: #94a3b8; }
 
         /* Section */
         .hub-section-title { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: #94a3b8; margin: 1.25rem 0 0.5rem; padding-bottom: 0.35rem; border-bottom: 1px solid #f1f5f9; }
@@ -133,7 +179,8 @@
         .hub-metrics-unmark:hover { background: #fef2f2; border-color: #fca5a5; }
 
         /* ── Tools view ── */
-        .tools-view { max-width: 1200px; margin: 0 auto; padding: 0.75rem 2rem 3rem; }
+        .tools-view { max-width: 1200px; margin: 0 auto; padding: 0.75rem 2rem 3rem; display: none; }
+        .tools-view.visible { display: block; }
         .pr-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.25rem; }
         .pr-card { background: #fff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 1.5rem; cursor: pointer; transition: box-shadow 0.2s, transform 0.15s, border-color 0.2s; position: relative; text-decoration: none; color: inherit; display: block; }
         .pr-card:hover { box-shadow: 0 8px 24px rgba(0,0,0,0.1); transform: translateY(-2px); border-color: #cbd5e1; }
@@ -143,7 +190,6 @@
         .pr-card-badge { position: absolute; top: 1rem; right: 1rem; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; padding: 2px 8px; border-radius: 20px; background: #f1f5f9; color: #94a3b8; }
         .icon--blue   { background: #eff6ff; }
         .icon--amber  { background: #fffbeb; }
-        .icon--green  { background: #f0fdf4; }
         .icon--purple { background: #faf5ff; }
         .icon--rose   { background: #fff1f2; }
         .icon--cyan   { background: #ecfeff; }
@@ -193,9 +239,13 @@
 
         @media (max-width: 700px) {
             .pr-hero-row { flex-direction: column; align-items: flex-start; }
-            .pr-hub-filters, .pr-tools-filters { margin-left: 0; }
+            .pr-detail-filters { margin-left: 0; }
             .hub-metrics-grid { grid-template-columns: 1fr 1fr; }
             .hub-form-grid { grid-template-columns: 1fr; }
+            .hub-cat-grid { grid-template-columns: 1fr 1fr; }
+        }
+        @media (max-width: 480px) {
+            .hub-cat-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -251,16 +301,9 @@
             <button class="pr-view-btn" data-view="tools">🛠 Tools</button>
         </div>
 
-        <!-- Hub filters (shown when hub active) -->
-        <div class="pr-hub-filters" id="hubFilters">
-            <select class="pr-select" id="filterType">
-                <option value="">All Types</option>
-                <option value="paper">📄 Paper</option>
-                <option value="finding">🔬 Finding</option>
-                <option value="product">📦 Product</option>
-                <option value="project">🚀 Project</option>
-                <option value="announcement">📢 Announcement</option>
-            </select>
+        <!-- Detail filters: shown when drilled into a category -->
+        <div class="pr-detail-filters" id="detailFilters">
+            <button class="pr-back-crumb" id="hubBackBtn">← All Categories</button>
             <select class="pr-select" id="filterStatus">
                 <option value="">All Status</option>
                 <option value="none">Not Started</option>
@@ -274,11 +317,11 @@
                 <option value="rednote">Rednote</option>
                 <option value="wechat">WeChat</option>
             </select>
-            <button class="pr-add-btn" id="addSourceBtn">＋ Add Source</button>
+            <button class="pr-add-btn" id="addSourceBtn" style="display:none">＋ Add Source</button>
         </div>
 
-        <!-- Tools filters (shown when tools active) -->
-        <div class="pr-tools-filters" id="toolsFilters" style="display:none">
+        <!-- Tools filters -->
+        <div class="pr-tools-filters" id="toolsFilters">
             <button class="pr-filter-btn active" data-filter="all">All</button>
             <button class="pr-filter-btn" data-filter="x">X</button>
             <button class="pr-filter-btn" data-filter="rednotes">Rednotes</button>
@@ -288,12 +331,26 @@
 
 <!-- PR Hub view -->
 <div class="hub-view" id="hubView">
-    <div id="statsBar" class="hub-stats"></div>
-    <div id="sourceList"><div class="hub-loading">Loading…</div></div>
+
+    <!-- Overview: category cards -->
+    <div id="hubOverview">
+        <div id="overviewStats" class="hub-overview-stats"></div>
+        <div id="hubCatGrid" class="hub-cat-grid"><div class="hub-loading">Loading…</div></div>
+    </div>
+
+    <!-- Detail: filtered list for one category -->
+    <div class="hub-detail" id="hubDetail">
+        <div class="hub-detail-header">
+            <span class="hub-detail-icon" id="detailIcon"></span>
+            <span class="hub-detail-title" id="detailTitle"></span>
+            <span class="hub-detail-count" id="detailCount"></span>
+        </div>
+        <div id="sourceList"></div>
+    </div>
 </div>
 
 <!-- Tools view -->
-<div class="tools-view" id="toolsView" style="display:none">
+<div class="tools-view" id="toolsView">
     <div class="pr-grid">
         <a href="/dam.html" target="_blank" rel="noopener noreferrer" class="pr-card">
             <div class="pr-card-icon icon--blue">🗂️</div>
@@ -362,7 +419,6 @@
                 <div class="hub-form-field hub-form-full"><label>Title *</label><input id="f-title" placeholder="e.g. HIERAMP: Coarse-to-Fine Autoregressive Amplification" /></div>
                 <div class="hub-form-field"><label>Type</label>
                     <select id="f-type">
-                        <option value="paper">📄 Paper</option>
                         <option value="finding">🔬 Research Finding</option>
                         <option value="product">📦 Product</option>
                         <option value="project">🚀 Project</option>
@@ -427,10 +483,19 @@ const PLATFORMS = [
       metrics: [{ key:'reads', label:'Reads' }, { key:'likes', label:'Likes' }] },
 ];
 
+const CATEGORIES = [
+    { type: 'paper',        icon: '📄', name: 'Papers',        desc: 'Research papers auto-synced from paper management.', iconClass: 'icon--blue',   cardClass: 'hub-cat-card--paper',        canAdd: false },
+    { type: 'finding',      icon: '🔬', name: 'Findings',      desc: 'Research findings and notable results to promote.',  iconClass: 'icon--purple', cardClass: 'hub-cat-card--finding',      canAdd: true  },
+    { type: 'product',      icon: '📦', name: 'Products',      desc: 'Product launches and feature announcements.',        iconClass: 'icon--sky',    cardClass: 'hub-cat-card--product',      canAdd: true  },
+    { type: 'project',      icon: '🚀', name: 'Projects',      desc: 'Ongoing projects and milestones worth sharing.',     iconClass: 'icon--green',  cardClass: 'hub-cat-card--project',      canAdd: true  },
+    { type: 'announcement', icon: '📢', name: 'Announcements', desc: 'General announcements, events, and news.',           iconClass: 'icon--amber',  cardClass: 'hub-cat-card--announcement', canAdd: true  },
+];
+
 const TYPE_ICONS = { paper:'📄', finding:'🔬', product:'📦', project:'🚀', announcement:'📢' };
 
 let allSources = [], token = null, editingSourceId = null, contentViewSource = null, contentViewTab = 'wechat', openMetricsKey = null;
-let currentView = 'hub';
+let currentView = 'hub';      // 'hub' | 'tools'
+let currentHubType = null;    // null = overview, string = drilled into category
 
 // ── Account switcher ──────────────────────────────────────────────────────────
 const ACCOUNTS = { yanzhiwang:{name:'Yanzhiwang',color:'#1d4ed8',initial:'Y'}, embodyx:{name:'EmbodyX',color:'#7c3aed',initial:'E'} };
@@ -456,15 +521,19 @@ document.addEventListener('click', () => document.getElementById('accountDropdow
 document.querySelectorAll('.account-option').forEach(btn => btn.addEventListener('click', () => { applyAccount(btn.dataset.account); document.getElementById('accountDropdown').classList.remove('open'); }));
 applyAccount(currentAccount);
 
-// ── View toggle ───────────────────────────────────────────────────────────────
+// ── View toggle (Hub / Tools) ─────────────────────────────────────────────────
 document.querySelectorAll('.pr-view-btn').forEach(btn => {
     btn.addEventListener('click', () => {
         currentView = btn.dataset.view;
         document.querySelectorAll('.pr-view-btn').forEach(b => b.classList.toggle('active', b.dataset.view === currentView));
-        document.getElementById('hubView').style.display = currentView === 'hub' ? '' : 'none';
-        document.getElementById('toolsView').style.display = currentView === 'tools' ? '' : 'none';
-        document.getElementById('hubFilters').style.display = currentView === 'hub' ? '' : 'none';
-        document.getElementById('toolsFilters').style.display = currentView === 'tools' ? '' : 'none';
+        document.getElementById('hubView').style.display    = currentView === 'hub'   ? '' : 'none';
+        document.getElementById('toolsView').classList.toggle('visible', currentView === 'tools');
+        document.getElementById('toolsFilters').classList.toggle('visible', currentView === 'tools');
+        if (currentView === 'hub') {
+            updateHeroFilters();
+        } else {
+            document.getElementById('detailFilters').classList.remove('visible');
+        }
     });
 });
 
@@ -475,6 +544,39 @@ document.querySelectorAll('.pr-filter-btn').forEach(btn => {
         btn.classList.add('active');
     });
 });
+
+// ── Hub navigation ────────────────────────────────────────────────────────────
+function updateHeroFilters() {
+    const detailFilters = document.getElementById('detailFilters');
+    if (currentView !== 'hub' || !currentHubType) {
+        detailFilters.classList.remove('visible');
+        return;
+    }
+    const cat = CATEGORIES.find(c => c.type === currentHubType);
+    detailFilters.classList.add('visible');
+    document.getElementById('addSourceBtn').style.display = cat?.canAdd ? '' : 'none';
+}
+
+function drillInto(type) {
+    currentHubType = type;
+    document.getElementById('hubOverview').style.display = 'none';
+    document.getElementById('hubDetail').classList.add('visible');
+    updateHeroFilters();
+    // reset filters
+    document.getElementById('filterStatus').value = '';
+    document.getElementById('filterPlatform').value = '';
+    renderDetail();
+}
+
+function goBackToOverview() {
+    currentHubType = null;
+    document.getElementById('hubOverview').style.display = '';
+    document.getElementById('hubDetail').classList.remove('visible');
+    document.getElementById('detailFilters').classList.remove('visible');
+    openMetricsKey = null;
+}
+
+document.getElementById('hubBackBtn').addEventListener('click', goBackToOverview);
 
 // ── Auth ──────────────────────────────────────────────────────────────────────
 async function init() {
@@ -507,8 +609,9 @@ async function loadData() {
         }
         const customItems = prSources.map(s => ({ ...s, _id:s.id, _sourceKind:'custom' }));
         allSources = [...customItems, ...[...seen.values()]];
-        render();
-    } catch { document.getElementById('sourceList').innerHTML = '<div class="hub-empty"><div class="hub-empty-icon">⚠️</div>Failed to load data.</div>'; }
+        renderOverview();
+        if (currentHubType) renderDetail();
+    } catch { document.getElementById('hubCatGrid').innerHTML = '<div class="hub-empty"><div class="hub-empty-icon">⚠️</div>Failed to load data.</div>'; }
 }
 
 // ── PR helpers ────────────────────────────────────────────────────────────────
@@ -516,30 +619,80 @@ function prDate(s, p) { const v = s.pr?.[p]; if (!v) return null; return typeof 
 function prObj(s, p) { const v = s.pr?.[p]; if (!v) return {}; return typeof v==='object'?v:{date:v}; }
 function prStatus(s) { const done = PLATFORMS.filter(p=>!!prDate(s,p.key)).length; return done===0?'none':done===PLATFORMS.length?'done':'partial'; }
 
-// ── Render ────────────────────────────────────────────────────────────────────
-function applyFilters() {
-    const type = document.getElementById('filterType').value;
-    const status = document.getElementById('filterStatus').value;
-    const platform = document.getElementById('filterPlatform').value;
-    return allSources.filter(s => (!type||s.type===type) && (!status||prStatus(s)===status) && (!platform||!!prDate(s,platform)));
-}
-
-function render() {
-    const filtered = applyFilters();
-    const total = allSources.length, done = allSources.filter(s=>prStatus(s)==='done').length, partial = allSources.filter(s=>prStatus(s)==='partial').length, none = allSources.filter(s=>prStatus(s)==='none').length;
-    document.getElementById('statsBar').innerHTML = `
+// ── Overview render ───────────────────────────────────────────────────────────
+function renderOverview() {
+    const total = allSources.length;
+    const done  = allSources.filter(s=>prStatus(s)==='done').length;
+    const part  = allSources.filter(s=>prStatus(s)==='partial').length;
+    const none  = allSources.filter(s=>prStatus(s)==='none').length;
+    document.getElementById('overviewStats').innerHTML = `
         <div class="hub-stat"><div class="hub-stat-num">${total}</div><div class="hub-stat-label">Total Sources</div></div>
         <div class="hub-stat hub-stat--done"><div class="hub-stat-num">${done}</div><div class="hub-stat-label">All Platforms Done</div></div>
-        <div class="hub-stat hub-stat--progress"><div class="hub-stat-num">${partial}</div><div class="hub-stat-label">In Progress</div></div>
+        <div class="hub-stat hub-stat--progress"><div class="hub-stat-num">${part}</div><div class="hub-stat-label">In Progress</div></div>
         <div class="hub-stat hub-stat--new"><div class="hub-stat-num">${none}</div><div class="hub-stat-label">Not Started</div></div>`;
+
+    const grid = document.getElementById('hubCatGrid');
+    grid.innerHTML = CATEGORIES.map(cat => {
+        const items = allSources.filter(s => s.type === cat.type);
+        const catDone    = items.filter(s=>prStatus(s)==='done').length;
+        const catPartial = items.filter(s=>prStatus(s)==='partial').length;
+        const catNone    = items.filter(s=>prStatus(s)==='none').length;
+        const pct = items.length ? Math.round((catDone / items.length) * 100) : 0;
+        const barClass = pct === 100 ? '' : catPartial > 0 ? ' hub-cat-bar-fill--partial' : '';
+        return `<div class="hub-cat-card ${cat.cardClass}" data-cat-type="${cat.type}" role="button" tabindex="0">
+            <div class="hub-cat-card-top">
+                <div class="hub-cat-icon ${cat.iconClass}">${cat.icon}</div>
+                <div style="text-align:right">
+                    <div class="hub-cat-count">${items.length}</div>
+                    <div class="hub-cat-count-label">sources</div>
+                </div>
+            </div>
+            <div>
+                <div class="hub-cat-name">${cat.name}</div>
+                <div class="hub-cat-desc">${cat.desc}</div>
+            </div>
+            <div class="hub-cat-progress">
+                <div class="hub-cat-bar-track"><div class="hub-cat-bar-fill${barClass}" style="width:${pct}%"></div></div>
+                <div class="hub-cat-stats-row">
+                    <span><span class="dot dot--green"></span>${catDone} done</span>
+                    <span><span class="dot dot--amber"></span>${catPartial} in progress</span>
+                    <span><span class="dot dot--gray"></span>${catNone} not started</span>
+                </div>
+            </div>
+            <span class="hub-cat-arrow">→</span>
+        </div>`;
+    }).join('');
+
+    grid.querySelectorAll('[data-cat-type]').forEach(card => {
+        const handler = () => drillInto(card.dataset.catType);
+        card.addEventListener('click', handler);
+        card.addEventListener('keydown', e => { if(e.key==='Enter'||e.key===' ') handler(); });
+    });
+}
+
+// ── Detail render ─────────────────────────────────────────────────────────────
+function renderDetail() {
+    const cat = CATEGORIES.find(c => c.type === currentHubType);
+    if (!cat) return;
+    document.getElementById('detailIcon').textContent  = cat.icon;
+    document.getElementById('detailTitle').textContent = cat.name;
+
+    const status   = document.getElementById('filterStatus').value;
+    const platform = document.getElementById('filterPlatform').value;
+    const filtered = allSources.filter(s =>
+        s.type === currentHubType &&
+        (!status   || prStatus(s) === status) &&
+        (!platform || !!prDate(s, platform))
+    );
+    document.getElementById('detailCount').textContent = `${filtered.length} sources`;
 
     const list = document.getElementById('sourceList');
     if (filtered.length === 0) { list.innerHTML = '<div class="hub-empty"><div class="hub-empty-icon">🔍</div>No sources match the filters.</div>'; return; }
 
     const groups = [
-        { key:'none',    label:'⭕ Not Started',        items: filtered.filter(s=>prStatus(s)==='none') },
-        { key:'partial', label:'🔄 In Progress',         items: filtered.filter(s=>prStatus(s)==='partial') },
-        { key:'done',    label:'✅ All Platforms Done',  items: filtered.filter(s=>prStatus(s)==='done') },
+        { key:'none',    label:'⭕ Not Started',       items: filtered.filter(s=>prStatus(s)==='none') },
+        { key:'partial', label:'🔄 In Progress',        items: filtered.filter(s=>prStatus(s)==='partial') },
+        { key:'done',    label:'✅ All Platforms Done', items: filtered.filter(s=>prStatus(s)==='done') },
     ].filter(g=>g.items.length>0);
 
     list.innerHTML = groups.map(g=>`<div class="hub-section-title">${g.label} (${g.items.length})</div>${g.items.map(s=>renderCard(s)).join('')}`).join('');
@@ -568,7 +721,7 @@ function renderCard(s) {
             <div class="hub-card-type-icon">${TYPE_ICONS[s.type]||'📌'}</div>
             <div class="hub-card-body">
                 <div class="hub-card-title">${titleHtml}</div>
-                <div class="hub-card-meta"><span class="hub-priority-dot hub-priority-dot--${s.priority||'medium'}"></span><span class="hub-tag hub-tag--${s.type}">${s.type}</span>${metaTags}</div>
+                <div class="hub-card-meta"><span class="hub-priority-dot hub-priority-dot--${s.priority||'medium'}"></span>${metaTags}</div>
             </div>
             <div class="hub-card-actions">
                 <a class="hub-gen-btn" href="${genUrl}" target="_blank" rel="noopener noreferrer">✨ Generate</a>
@@ -602,8 +755,6 @@ function openMetricsPanel(src, platform) {
 
 function closeMetricsPanel() {
     if(!openMetricsKey) return;
-    const parts = openMetricsKey.split('-'); let sid = '';
-    // find source whose id starts with the key prefix
     const src = allSources.find(s => openMetricsKey.startsWith(s._id+'-'));
     if(src) { const el=document.getElementById(`metrics-panel-${src._id}`); if(el){el.classList.remove('open');el.innerHTML='';} }
     openMetricsKey = null;
@@ -627,7 +778,9 @@ async function persistPr(src, newPr) {
     try {
         const res = await fetch(url,{ method:'PUT', headers:{'Content-Type':'application/json',Authorization:'Bearer '+token}, body:JSON.stringify({...src,pr:newPr}) });
         if(!res.ok) throw new Error();
-        src.pr = newPr; openMetricsKey=null; render();
+        src.pr = newPr; openMetricsKey=null;
+        renderOverview();
+        renderDetail();
     } catch { alert('Failed to save. Please try again.'); }
 }
 
@@ -653,7 +806,7 @@ function openSourceModal(s) {
     editingSourceId=s?s._id:null;
     document.getElementById('sourceModalTitle').textContent=s?'Edit Source':'Add Source';
     document.getElementById('f-title').value=s?.title||'';
-    document.getElementById('f-type').value=s?.type||'announcement';
+    document.getElementById('f-type').value=s?.type||currentHubType||'finding';
     document.getElementById('f-priority').value=s?.priority||'medium';
     document.getElementById('f-description').value=s?.description||'';
     document.getElementById('f-link').value=s?.link||'';
@@ -684,7 +837,7 @@ document.getElementById('sourceModalDelete').addEventListener('click',async()=>{
 document.getElementById('sourceModal').addEventListener('click',e=>{if(e.target===e.currentTarget)closeSourceModal();});
 document.getElementById('contentModal').addEventListener('click',e=>{if(e.target===e.currentTarget)document.getElementById('contentModal').classList.remove('open');});
 
-['filterType','filterStatus','filterPlatform'].forEach(id=>document.getElementById(id).addEventListener('change',render));
+['filterStatus','filterPlatform'].forEach(id=>document.getElementById(id).addEventListener('change', renderDetail));
 
 function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 
