@@ -18,6 +18,9 @@
         .pr-header-left { display: flex; align-items: center; gap: 1rem; }
         .pr-back { font-size: 13px; color: #64748b; text-decoration: none; }
         .pr-back:hover { color: #1d4ed8; text-decoration: underline; }
+        .pr-header-back-detail { display: none; font-size: 13px; color: #64748b; background: none; border: none; cursor: pointer; font-family: inherit; padding: 0; }
+        .pr-header-back-detail:hover { color: #1d4ed8; text-decoration: underline; }
+        .pr-header-back-detail.visible { display: inline; }
         .pr-header-title { font-size: 1.1rem; font-weight: 700; color: #1e293b; }
         .pr-header-sep { color: #cbd5e1; font-size: 1.2rem; }
 
@@ -75,7 +78,7 @@
         .hub-stat--new .hub-stat-num { color: #64748b; }
 
         /* Category cards grid */
-        .hub-cat-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1.25rem; }
+        .hub-cat-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.25rem; }
 
         .hub-cat-card { background: #fff; border: 1px solid #e2e8f0; border-radius: 14px; padding: 1.5rem; cursor: pointer; transition: box-shadow 0.2s, transform 0.15s, border-color 0.2s; display: flex; flex-direction: column; gap: 1rem; position: relative; overflow: hidden; }
         .hub-cat-card:hover { box-shadow: 0 8px 24px rgba(0,0,0,0.09); transform: translateY(-2px); border-color: #cbd5e1; }
@@ -242,9 +245,6 @@
             .pr-detail-filters { margin-left: 0; }
             .hub-metrics-grid { grid-template-columns: 1fr 1fr; }
             .hub-form-grid { grid-template-columns: 1fr; }
-            .hub-cat-grid { grid-template-columns: 1fr 1fr; }
-        }
-        @media (max-width: 480px) {
             .hub-cat-grid { grid-template-columns: 1fr; }
         }
     </style>
@@ -264,7 +264,9 @@
         <div class="pr-header-left">
             <a href="https://www.yanzhiwang.com" class="pr-back">← Homepage</a>
             <span class="pr-header-sep">|</span>
-            <span class="pr-header-title">PR Tool</span>
+            <button class="pr-header-back-detail" id="headerBackBtn">← PR Hub</button>
+            <span class="pr-header-sep" id="headerBackSep" style="display:none">|</span>
+            <span class="pr-header-title" id="headerTitle">PR Tool</span>
         </div>
         <div class="account-switcher">
             <button class="account-btn" id="accountBtn">
@@ -557,12 +559,29 @@ function updateHeroFilters() {
     document.getElementById('addSourceBtn').style.display = cat?.canAdd ? '' : 'none';
 }
 
+function setHeaderBack(cat) {
+    const btn  = document.getElementById('headerBackBtn');
+    const sep  = document.getElementById('headerBackSep');
+    const title = document.getElementById('headerTitle');
+    if (cat) {
+        btn.textContent = '← PR Hub';
+        btn.classList.add('visible');
+        sep.style.display = '';
+        title.textContent = cat.name;
+    } else {
+        btn.classList.remove('visible');
+        sep.style.display = 'none';
+        title.textContent = 'PR Tool';
+    }
+}
+
 function drillInto(type) {
     currentHubType = type;
+    const cat = CATEGORIES.find(c => c.type === type);
     document.getElementById('hubOverview').style.display = 'none';
     document.getElementById('hubDetail').classList.add('visible');
+    setHeaderBack(cat);
     updateHeroFilters();
-    // reset filters
     document.getElementById('filterStatus').value = '';
     document.getElementById('filterPlatform').value = '';
     renderDetail();
@@ -573,10 +592,12 @@ function goBackToOverview() {
     document.getElementById('hubOverview').style.display = '';
     document.getElementById('hubDetail').classList.remove('visible');
     document.getElementById('detailFilters').classList.remove('visible');
+    setHeaderBack(null);
     openMetricsKey = null;
 }
 
 document.getElementById('hubBackBtn').addEventListener('click', goBackToOverview);
+document.getElementById('headerBackBtn').addEventListener('click', goBackToOverview);
 
 // ── Auth ──────────────────────────────────────────────────────────────────────
 async function init() {
