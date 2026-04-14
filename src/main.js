@@ -1,5 +1,12 @@
 const API = 'https://conference-tracker-production.up.railway.app';
 
+// ── Internal access flag ──────────────────────────────────────
+// Visit any page with ?internal in the URL to permanently unlock the Users nav
+if (new URLSearchParams(window.location.search).has('internal')) {
+    localStorage.setItem('ct_internal', '1');
+}
+function isInternal() { return localStorage.getItem('ct_internal') === '1'; }
+
 // ── Auth helpers ──────────────────────────────────────────────
 function getToken() { return localStorage.getItem('ct_token'); }
 function setToken(t) { localStorage.setItem('ct_token', t); }
@@ -29,7 +36,7 @@ class SharedHeader extends HTMLElement {
                     <li><a href="./students.html">Students</a></li>
                     <li><a href="./opensource.html">Open Source</a></li>
                     <li><a href="./CV.pdf" target="_blank">CV</a></li>
-                    <li><a href="#" id="users-nav-link">Users</a></li>
+                    ${isInternal() || getToken() ? '<li><a href="#" id="users-nav-link">Users</a></li>' : ''}
                 </ul>
             </nav>
         </div>
@@ -321,7 +328,16 @@ function updateSidebarLink(user) {
 }
 
 function updateUsersNav(user) {
-    const link = document.getElementById('users-nav-link');
+    const nav = document.querySelector('.nav-links');
+    let link = document.getElementById('users-nav-link');
+    // If logging in and the link doesn't exist yet, inject it
+    if (user && !link && nav) {
+        const li = document.createElement('li');
+        li.innerHTML = '<a href="#" id="users-nav-link">Users</a>';
+        nav.appendChild(li);
+        link = document.getElementById('users-nav-link');
+        link.addEventListener('click', e => { e.preventDefault(); openAuthModal(); });
+    }
     if (!link) return;
     link.textContent = user ? `${user.email.split('@')[0]} ▾` : 'Users';
 }
