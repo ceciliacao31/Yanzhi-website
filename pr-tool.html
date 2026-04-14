@@ -525,6 +525,7 @@ function applyAccount(key) {
         btn.classList.toggle('active', active);
         document.getElementById('check-' + btn.dataset.account).style.display = active ? '' : 'none';
     });
+    if (allSources.length) { goBackToOverview(); renderOverview(); }
 }
 document.getElementById('accountBtn').addEventListener('click', e => { e.stopPropagation(); document.getElementById('accountDropdown').classList.toggle('open'); });
 document.addEventListener('click', () => document.getElementById('accountDropdown').classList.remove('open'));
@@ -634,13 +635,18 @@ async function loadData() {
         const seen = new Map();
         for (const p of papers) {
             const key = (p.title || '').toLowerCase().replace(/[^a-z0-9]+/g,' ').trim();
-            if (!seen.has(key)) seen.set(key, { _id:p.id, _sourceKind:'paper', type:'paper', title:p.title||'', description:[p.conferenceName, p.track&&p.track!=='Main'?p.track:null].filter(Boolean).join(' · '), link:p.link||'', priority:'medium', pr:p.pr||{}, savedContent:p.savedContent||{}, notes:p.notes||'', _status:p.status||'', _conf:p.conferenceName||'', _date:p.date||'', createdAt:p.createdAt||'' });
+            if (!seen.has(key)) seen.set(key, { _id:p.id, _sourceKind:'paper', type:'paper', account:'yanzhiwang', title:p.title||'', description:[p.conferenceName, p.track&&p.track!=='Main'?p.track:null].filter(Boolean).join(' · '), link:p.link||'', priority:'medium', pr:p.pr||{}, savedContent:p.savedContent||{}, notes:p.notes||'', _status:p.status||'', _conf:p.conferenceName||'', _date:p.date||'', createdAt:p.createdAt||'' });
         }
         const customItems = prSources.map(s => ({ ...s, _id:s.id, _sourceKind:'custom' }));
         allSources = [...customItems, ...[...seen.values()]];
         renderOverview();
         if (currentHubType) renderDetail();
     } catch { document.getElementById('hubCatGrid').innerHTML = '<div class="hub-empty"><div class="hub-empty-icon">⚠️</div>Failed to load data.</div>'; }
+}
+
+// ── Account filter ────────────────────────────────────────────────────────────
+function accountSources() {
+    return allSources.filter(s => (s.account || 'yanzhiwang') === currentAccount);
 }
 
 // ── PR helpers ────────────────────────────────────────────────────────────────
@@ -650,10 +656,11 @@ function prStatus(s) { const done = PLATFORMS.filter(p=>!!prDate(s,p.key)).lengt
 
 // ── Overview render ───────────────────────────────────────────────────────────
 function renderOverview() {
-    const total = allSources.length;
-    const done  = allSources.filter(s=>prStatus(s)==='done').length;
-    const part  = allSources.filter(s=>prStatus(s)==='partial').length;
-    const none  = allSources.filter(s=>prStatus(s)==='none').length;
+    const sources = accountSources();
+    const total = sources.length;
+    const done  = sources.filter(s=>prStatus(s)==='done').length;
+    const part  = sources.filter(s=>prStatus(s)==='partial').length;
+    const none  = sources.filter(s=>prStatus(s)==='none').length;
     document.getElementById('overviewStats').innerHTML = `
         <div class="hub-stat"><div class="hub-stat-num">${total}</div><div class="hub-stat-label">Total Sources</div></div>
         <div class="hub-stat hub-stat--done"><div class="hub-stat-num">${done}</div><div class="hub-stat-label">All Platforms Done</div></div>
@@ -662,7 +669,7 @@ function renderOverview() {
 
     const grid = document.getElementById('hubCatGrid');
     grid.innerHTML = CATEGORIES.map(cat => {
-        const items = allSources.filter(s => s.type === cat.type);
+        const items = sources.filter(s => s.type === cat.type);
         const catDone    = items.filter(s=>prStatus(s)==='done').length;
         const catPartial = items.filter(s=>prStatus(s)==='partial').length;
         const catNone    = items.filter(s=>prStatus(s)==='none').length;
@@ -708,7 +715,7 @@ function renderDetail() {
 
     const status   = document.getElementById('filterStatus').value;
     const platform = document.getElementById('filterPlatform').value;
-    const filtered = allSources.filter(s =>
+    const filtered = accountSources().filter(s =>
         s.type === currentHubType &&
         (!status   || prStatus(s) === status) &&
         (!platform || !!prDate(s, platform))
@@ -848,7 +855,7 @@ function closeSourceModal(){ document.getElementById('sourceModal').classList.re
 document.getElementById('sourceModalSave').addEventListener('click',async()=>{
     const title=document.getElementById('f-title').value.trim();
     if(!title){alert('Title is required.');return;}
-    const body={title,type:document.getElementById('f-type').value,priority:document.getElementById('f-priority').value,description:document.getElementById('f-description').value.trim(),link:document.getElementById('f-link').value.trim(),notes:document.getElementById('f-notes').value.trim()};
+    const body={title,type:document.getElementById('f-type').value,priority:document.getElementById('f-priority').value,description:document.getElementById('f-description').value.trim(),link:document.getElementById('f-link').value.trim(),notes:document.getElementById('f-notes').value.trim(),account:currentAccount};
     try {
         const url=editingSourceId?`${API}/api/pr-sources/${editingSourceId}`:`${API}/api/pr-sources`;
         const res=await fetch(url,{method:editingSourceId?'PUT':'POST',headers:{'Content-Type':'application/json',Authorization:'Bearer '+token},body:JSON.stringify(body)});
