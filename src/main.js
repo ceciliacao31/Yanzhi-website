@@ -1,10 +1,7 @@
 const API = 'https://conference-tracker-production.up.railway.app';
 
 // ── Internal access flag ──────────────────────────────────────
-// Visit any page with ?internal in the URL to permanently unlock the Users nav
-if (new URLSearchParams(window.location.search).has('internal')) {
-    localStorage.setItem('ct_internal', '1');
-}
+// Visit /internal to permanently unlock the Users nav on this browser
 function isInternal() { return localStorage.getItem('ct_internal') === '1'; }
 
 // ── Auth helpers ──────────────────────────────────────────────

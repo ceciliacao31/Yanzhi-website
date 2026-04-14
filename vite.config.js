@@ -15,7 +15,8 @@ export default defineConfig({
                 opensource: 'opensource.html',
                 prTool: 'pr-tool.html',
                 dam: 'dam.html',
-                matrixPublishing: 'matrix-publishing.html'
+                matrixPublishing: 'matrix-publishing.html',
+                internal: 'internal.html'
             }
         },
         outDir: 'docs', // Output to docs/ for easier GitHub Pages deployment
